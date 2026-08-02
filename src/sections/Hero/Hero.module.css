@@ -171,10 +171,11 @@
 }
 
 .bottomCenter {
-  position: absolute;
+  position: fixed;
   bottom: clamp(3.25rem, 5.45vh, 4.75rem);
   left: 50%;
   transform: translateX(-50%);
+  z-index: 100;
   pointer-events: auto;
   transform-origin: 50% 100%;
 }

@@ -6,9 +6,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Archivo:wght@520&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@700;800&family=Outfit:wght@400;500;600;700&display=swap');
 
 :root {
-  --night-floor: oklch(0.075 0.018 273);
-  --bg:          oklch(0.075 0.018 273);
-  --bg-soft:     oklch(0.11 0.018 273);
+  --night-floor: #040714;
+  --bg:          #040714;
+  --bg-soft:     #080e20;
   --ink:         oklch(0.91 0.008 75);
   --muted:       oklch(0.62 0.01 75);
   --accent:      oklch(0.62 0.24 29);

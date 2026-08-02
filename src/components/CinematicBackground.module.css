@@ -1,5 +1,5 @@
 .scene {
-  --night-floor: oklch(0.075 0.018 273);
+  --night-floor: #040714;
 
   position: relative;
   isolation: isolate;
@@ -28,9 +28,9 @@
     180deg,
     transparent 0%,
     transparent 42%,
-    oklch(0.075 0.018 273 / 0.15) 60%,
-    oklch(0.075 0.018 273 / 0.55) 78%,
-    oklch(0.075 0.018 273 / 0.92) 92%,
+    rgba(4, 7, 20, 0.15) 60%,
+    rgba(4, 7, 20, 0.55) 78%,
+    rgba(4, 7, 20, 0.92) 92%,
     var(--night-floor) 100%
   );
   pointer-events: none;
