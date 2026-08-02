@@ -13,14 +13,15 @@
  * - cleanup: gsap.context().revert() to kill all tweens/ScrollTriggers on unmount.
  */
 
-import { useEffect, useRef } from 'react';
+import { useRef } from 'react';
+import { useGSAP } from '@gsap/react';
 import gsap from 'gsap';
 import ScrollTrigger from 'gsap/ScrollTrigger';
 import Hero from '../sections/Hero/Hero';
 import CinematicBackground from './CinematicBackground';
 import './preloader.css';
 
-gsap.registerPlugin(ScrollTrigger);
+gsap.registerPlugin(ScrollTrigger, useGSAP);
 
 // ─────────────────────────────────────────────────────────────────────────────
 // char mask builder — exact copy of createMaskedText() from the reference
@@ -52,7 +53,7 @@ function createMaskedText(el: HTMLElement) {
 // ─────────────────────────────────────────────────────────────────────────────
 // settle calculation — exact copy of getHeroNameSettle() from the reference
 // ─────────────────────────────────────────────────────────────────────────────
-function getHeroNameSettle(preloaderContent: HTMLElement) {
+function getHeroNameBottomSettle(preloaderContent: HTMLElement) {
   gsap.set(preloaderContent, { clearProps: 'transform' });
   const source = preloaderContent.getBoundingClientRect();
   const mobile = window.innerWidth <= 768;
@@ -63,8 +64,27 @@ function getHeroNameSettle(preloaderContent: HTMLElement) {
   const sourceCenterX = source.left + source.width / 2;
   const sourceCenterY = source.top + source.height / 2;
   const targetCenterX = window.innerWidth / 2;
-  const targetCenterY =
-    window.innerHeight - bottomPad - (source.height * scale) / 2;
+  const targetCenterY = window.innerHeight - bottomPad - (source.height * scale) / 2;
+
+  return {
+    x: targetCenterX - sourceCenterX,
+    y: targetCenterY - sourceCenterY,
+    scale,
+  };
+}
+
+function getHeroNameLock(preloaderContent: HTMLElement) {
+  gsap.set(preloaderContent, { clearProps: 'transform' });
+  const source = preloaderContent.getBoundingClientRect();
+  const mobile = window.innerWidth <= 768;
+  const targetWidth = mobile
+    ? Math.min(window.innerWidth - 48, 300)
+    : Math.min(window.innerWidth * 0.32, 560);
+  const scale = Math.min(targetWidth / source.width, mobile ? 0.62 : 0.52);
+  const sourceCenterX = source.left + source.width / 2;
+  const sourceCenterY = source.top + source.height / 2;
+  const targetCenterX = window.innerWidth / 2;
+  const targetCenterY = window.innerHeight * 0.47;
   return {
     x: targetCenterX - sourceCenterX,
     y: targetCenterY - sourceCenterY,
@@ -74,29 +94,27 @@ function getHeroNameSettle(preloaderContent: HTMLElement) {
 
 // ─────────────────────────────────────────────────────────────────────────────
 export default function Preloader() {
-  const mounted = useRef(false);
+  const preloaderRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    // Strict-mode guard (shouldn't be in StrictMode, but just in case)
-    if (mounted.current) return;
-    mounted.current = true;
+  useGSAP(() => {
+    const root = preloaderRef.current;
+    if (!root) return;
 
-    const ctx = gsap.context(() => {
       // ── Step 1: Build character masks (same as vanilla HTML) ────
-      document.querySelectorAll<HTMLElement>('[data-text]').forEach(createMaskedText);
+      root.querySelectorAll<HTMLElement>('[data-text]').forEach(createMaskedText);
 
       // ── Step 2: Grab DOM references ─────────────────────────────
-      const preloaderContent = document.getElementById('btmPreloaderContent')!;
-      const nameLayer        = document.querySelector<HTMLElement>('.btm-name-layer')!;
-      const introBg          = document.querySelector<HTMLElement>('.btm-intro-bg')!;
-      const transitionPanel  = document.querySelector<HTMLElement>('.btm-transition-panel')!;
-      const tPanelRed        = document.querySelector<HTMLElement>('.btm-t-panel-red')!;
-      const tPanelDark       = document.querySelector<HTMLElement>('.btm-t-panel-dark')!;
-      const chars            = gsap.utils.toArray<HTMLElement>('.btm-char-reveal');
+      const preloaderContent = root.querySelector<HTMLElement>('#btmPreloaderContent')!;
+      const introBg          = root.querySelector<HTMLElement>('.btm-intro-bg')!;
+      const transitionPanel  = root.querySelector<HTMLElement>('.btm-transition-panel')!;
+      const tPanelRed        = root.querySelector<HTMLElement>('.btm-t-panel-red')!;
+      const tPanelDark       = root.querySelector<HTMLElement>('.btm-t-panel-dark')!;
+      const chars            = gsap.utils.toArray<HTMLElement>(root.querySelectorAll('.btm-char-reveal'));
 
       // ── Step 3: Compute name settle position ─────────────────────
       window.scrollTo(0, 0);
-      const nameSettle = getHeroNameSettle(preloaderContent);
+      const nameBottomSettle = getHeroNameBottomSettle(preloaderContent);
+      const nameLock = getHeroNameLock(preloaderContent);
 
       // ── Step 4: Scroll progress tracker ──────────────────────────
       // ── Step 5: Initial GSAP set state ───────────────────────────
@@ -123,10 +141,10 @@ export default function Preloader() {
           { autoAlpha: 1, duration: 0.22, ease: 'power2.out' },
           '-=0.1',
         )
-        .to({}, { duration: 0.22 })
+        .to({}, { duration: 0.16 })
         .to(preloaderContent, {
-          ...nameSettle,
-          duration: 0.78,
+          ...nameBottomSettle,
+          duration: 0.88,
           ease: 'power3.inOut',
         })
         .to(
@@ -146,7 +164,11 @@ export default function Preloader() {
           { yPercent: -100, duration: 0.56, ease: 'power3.inOut' },
           '-=0.42',
         )
-        .set(nameLayer, { mixBlendMode: 'difference' }, '-=0.4')
+        .to(
+          preloaderContent,
+          { ...nameLock, duration: 0.78, ease: 'power4.out' },
+          '<+=0.1',
+        )
         .set(transitionPanel, { display: 'none' });
 
       // ── Step 8: Scroll-driven hero text movement (No splitting) ──
@@ -160,16 +182,13 @@ export default function Preloader() {
       });
 
       heroScroll.to(preloaderContent, {
-        y: nameSettle.y - window.innerHeight,
+        y: nameLock.y - window.innerHeight,
         ease: 'none',
       });
-    });
-
-    return () => ctx.revert();
-  }, []);
+  }, { scope: preloaderRef });
 
   return (
-    <>
+    <div ref={preloaderRef} className="btm-preloader-root">
       {/* ── Intro background overlay ────────────────────────────── */}
       <div className="btm-intro-bg" aria-hidden="true" />
 
@@ -256,6 +275,6 @@ export default function Preloader() {
           </div>
         </section>
       </div>
-    </>
+    </div>
   );
 }

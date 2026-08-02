@@ -125,7 +125,6 @@
   font-size: 0.72rem;
   font-weight: 800;
   color: oklch(0.91 0.008 75);
-  mix-blend-mode: difference;
   opacity: 0.92;
   pointer-events: none;
 }
