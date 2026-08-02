@@ -1,0 +1,215 @@
+.scene {
+  --night-floor: oklch(0.075 0.018 273);
+
+  position: relative;
+  isolation: isolate;
+  min-height: max(220svh, 124.14vw);
+  overflow: hidden;
+  background: var(--night-floor);
+}
+
+/* 3712 / 4608. Keeping this stage at the source ratio shows the entire image,
+   instead of cropping it into a single viewport with background-size: cover. */
+.imageStage {
+  position: absolute;
+  inset: 0 auto auto 0;
+  z-index: 0;
+  width: 100%;
+  aspect-ratio: 3712 / 4608;
+  overflow: hidden;
+  transform: translate3d(0, 0, 0);
+}
+
+.imageStage::after {
+  position: absolute;
+  inset: 0;
+  content: '';
+  background: linear-gradient(
+    180deg,
+    transparent 71%,
+    oklch(0.075 0.018 273 / 0.48) 88%,
+    var(--night-floor) 100%
+  );
+  pointer-events: none;
+}
+
+.backgroundImage {
+  display: block;
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  object-fit: fill;
+  user-select: none;
+  pointer-events: none;
+  transform: translate3d(0, 0, 0);
+}
+
+.cloudLayer {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  overflow: hidden;
+  pointer-events: none;
+  contain: layout paint style;
+  transform: translate3d(0, 0, 0);
+}
+
+.cloudTrack {
+  display: flex;
+  width: 200%;
+  height: 100%;
+  will-change: transform;
+  backface-visibility: hidden;
+  transform: translate3d(0, 0, 0);
+  animation: drift-left 160s linear infinite;
+}
+
+.cloudSet {
+  position: relative;
+  flex: 0 0 50%;
+  height: 100%;
+}
+
+.cloud {
+  position: absolute;
+  display: block;
+  width: auto;
+  height: auto;
+  max-width: none;
+  user-select: none;
+  pointer-events: none;
+  transform: translate3d(0, 0, 0);
+}
+
+/* Depth comes from speed, opacity and a restrained blur, never from a vertical
+   bob. That keeps the title reveal calm and all repeated motion horizontal. */
+.largeClouds {
+  opacity: 0.6;
+  filter: blur(3.25px);
+}
+
+.largeClouds .cloudTrack {
+  animation-duration: 172s;
+}
+
+.mediumClouds {
+  opacity: 0.74;
+  filter: blur(1.25px);
+}
+
+.mediumClouds .cloudTrack {
+  animation-name: drift-right;
+  animation-duration: 116s;
+}
+
+.foregroundClouds {
+  opacity: 0.9;
+  filter: blur(0.25px);
+}
+
+.foregroundClouds .cloudTrack {
+  animation-duration: 78s;
+}
+
+.cloud1 {
+  top: 7%;
+  left: -15%;
+  width: 68%;
+}
+
+.cloud2 {
+  top: 26%;
+  left: 51%;
+  width: 61%;
+}
+
+.cloud3 {
+  top: 18%;
+  left: -11%;
+  width: 56%;
+}
+
+.cloud4 {
+  top: 45%;
+  left: 27%;
+  width: 52%;
+}
+
+.cloud5 {
+  top: 66%;
+  left: 74%;
+  width: 48%;
+}
+
+.cloud6 {
+  top: 39%;
+  left: -24%;
+  width: 78%;
+}
+
+.cloud7 {
+  top: 70%;
+  left: 43%;
+  width: 78%;
+}
+
+@keyframes drift-left {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+
+  to {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+@keyframes drift-right {
+  from {
+    transform: translate3d(-50%, 0, 0);
+  }
+
+  to {
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@media (max-width: 700px) {
+  .scene {
+    min-height: max(205svh, 124.14vw);
+  }
+
+  .largeClouds {
+    filter: blur(2.5px);
+  }
+
+  .cloud1 {
+    width: 92%;
+  }
+
+  .cloud2 {
+    width: 86%;
+  }
+
+  .cloud3 {
+    width: 79%;
+  }
+
+  .cloud4 {
+    width: 74%;
+  }
+
+  .cloud5 {
+    width: 72%;
+  }
+
+  .cloud6,
+  .cloud7 {
+    width: 105%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cloudTrack {
+    animation: none;
+  }
+}

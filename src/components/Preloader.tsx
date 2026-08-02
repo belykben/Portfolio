@@ -16,6 +16,7 @@
 import { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import ScrollTrigger from 'gsap/ScrollTrigger';
+import CinematicBackground from './CinematicBackground';
 import './preloader.css';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -94,25 +95,12 @@ export default function Preloader() {
       const lastName         = document.querySelector<HTMLElement>('.btm-preloader-last')!;
       const dotName          = document.querySelector<HTMLElement>('.btm-preloader-dot')!;
       const chars            = gsap.utils.toArray<HTMLElement>('.btm-char-reveal');
-      const percentRef       = document.getElementById('btmPercentRef')!;
-      const barRef           = document.getElementById('btmBarRef')!;
 
       // ── Step 3: Compute name settle position ─────────────────────
       window.scrollTo(0, 0);
       const nameSettle = getHeroNameSettle(preloaderContent);
 
       // ── Step 4: Scroll progress tracker ──────────────────────────
-      ScrollTrigger.create({
-        start: 0,
-        end: 'max',
-        onUpdate: (self) => {
-          if (percentRef)
-            percentRef.textContent = `(${Math.round(self.progress * 100)})`;
-          if (barRef)
-            barRef.style.transform = `scaleY(${Math.max(0.04, self.progress)})`;
-        },
-      });
-
       // ── Step 5: Initial GSAP set state ───────────────────────────
       gsap.set(preloaderContent, {
         scale: window.innerWidth <= 600 ? 0.72 : 0.44,
@@ -121,11 +109,6 @@ export default function Preloader() {
       gsap.set(chars, { yPercent: 118 });
       gsap.set('.btm-preloader-dot .btm-char-reveal', { autoAlpha: 0 });
       gsap.set([tPanelDark, tPanelRed], { yPercent: 100 });
-      gsap.set('.btm-hero-tagline, .btm-hero-nav', {
-        autoAlpha: 0,
-        clipPath: 'inset(0 0 100% 0)',
-      });
-      gsap.set('.btm-hero-line', { autoAlpha: 0, scaleX: 0 });
 
       // ── Step 6: Intro animation timeline (matches reference exactly)
       const intro = gsap.timeline({ defaults: { ease: 'power3.out' } });
@@ -165,37 +148,10 @@ export default function Preloader() {
           { yPercent: -100, duration: 0.56, ease: 'power3.inOut' },
           '-=0.42',
         )
-        .to(
-          '.btm-hero-tagline',
-          { autoAlpha: 1, clipPath: 'inset(0 0 0% 0)', duration: 1.08, ease: 'power3.inOut' },
-          '-=0.72',
-        )
-        .to(
-          '.btm-hero-nav',
-          { autoAlpha: 1, clipPath: 'inset(0 0 0% 0)', duration: 1, ease: 'power3.inOut' },
-          '-=0.86',
-        )
-        .fromTo(
-          '.btm-hero-line',
-          { autoAlpha: 1, scaleX: 0 },
-          { scaleX: 1, duration: 1, ease: 'power3.inOut' },
-          '<',
-        )
         .set(nameLayer, { mixBlendMode: 'difference' }, '-=0.4')
         .set(transitionPanel, { display: 'none' });
 
       // ── Step 7: Hero background parallax ─────────────────────────
-      gsap.to('.btm-hero-bg', {
-        scale: 1.18,
-        yPercent: 16,
-        scrollTrigger: {
-          trigger: '.btm-scroll-wrap',
-          start: 'top top',
-          end: 'bottom top',
-          scrub: true,
-        },
-      });
-
       // ── Step 8: Scroll-driven name split + reveal ─────────────────
       const exitLeft  = window.innerWidth <= 768 ? '-38vw' : '-55vw';
       const exitRight = window.innerWidth <= 768 ? '38vw'  : '55vw';
@@ -214,11 +170,6 @@ export default function Preloader() {
           preloaderContent,
           { x: nameSettle.x, y: nameSettle.y, scale: nameSettle.scale },
           { x: nameSettle.x, y: 0, duration: 0.3, ease: 'none', immediateRender: false },
-          0,
-        )
-        .to(
-          '.btm-hero-tagline, .btm-hero-nav, .btm-hero-line',
-          { autoAlpha: 0, duration: 0.15, ease: 'none' },
           0,
         )
         .fromTo(
@@ -260,43 +211,10 @@ export default function Preloader() {
       </div>
 
       {/* ── Scroll progress indicators ───────────────────────────── */}
-      <div className="btm-scroll-pct" id="btmPercentRef">(0)</div>
-      <div className="btm-scroll-timeline" aria-hidden="true">
-        <span>Hero</span>
-        <div className="btm-scroll-track">
-          <div className="btm-scroll-bar" id="btmBarRef" />
-        </div>
-      </div>
-
       {/* ── Main scroll container + hero + content ───────────────── */}
       <div className="btm-scroll-wrap">
         <section className="btm-hero">
-          <div className="btm-hero-bg" aria-hidden="true" />
-
-          <p className="btm-hero-tagline">
-            Full Stack Python Developer,{' '}
-            <em>bringing AI ideas to life,</em>
-            <br />
-            through systems, detail and scalable platforms.
-          </p>
-
-          <div className="btm-hero-line" aria-hidden="true" />
-
-          <div className="btm-hero-nav">
-            <span className="btm-version">➔ V3.0</span>
-            <nav className="btm-hero-social">
-              <a href="#work">Behance</a>
-              <span className="sep">/</span>
-              <a href="#">LinkedIn</a>
-              <span className="sep">/</span>
-              <a href="#">GitHub</a>
-            </nav>
-            <nav className="btm-hero-menu">
-              <a href="#info">Info</a>
-              <a href="#work">Work</a>
-              <a href="#skills">Skills</a>
-            </nav>
-          </div>
+          <CinematicBackground />
         </section>
       </div>
     </>
