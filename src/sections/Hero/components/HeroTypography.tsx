@@ -1,31 +1,27 @@
-import { forwardRef } from 'react';
 import resumeUrl from '../../../../Benedict_Thomas_Updated_Resume_Final.html?url';
 import styles from '../Hero.module.css';
 
-export const HeroTypography = forwardRef<HTMLDivElement>((_, ref) => {
+interface HeroTypographyProps {
+  headlineRef: React.RefObject<HTMLDivElement | null>;
+  supportingCopyRef: React.RefObject<HTMLDivElement | null>;
+  taglineRef: React.RefObject<HTMLDivElement | null>;
+}
+
+export function HeroTypography({
+  headlineRef,
+  supportingCopyRef,
+  taglineRef,
+}: HeroTypographyProps) {
   return (
-    <div ref={ref} className={styles.typographyWrapper}>
-      <header className={styles.heroHeader}>
-        <nav className={styles.primaryNav} aria-label="Primary navigation">
-          <a href="#about">About</a>
-          <a href="#projects">Work</a>
-          <a href="#contact">Contact</a>
-        </nav>
-
-        <nav className={styles.utilityNav} aria-label="Contact links">
-          <a href="https://github.com/belykben" target="_blank" rel="noreferrer">GitHub</a>
-          <a href="mailto:benedictt06@gmail.com">benedictt06@gmail.com</a>
-        </nav>
-      </header>
-
-      <div className={styles.topLeft}>
+    <div className={styles.typographyWrapper}>
+      <div ref={headlineRef} className={styles.topLeft}>
         <h1 className={styles.primaryHeadline}>
           <span>AI ideas</span>
           <span>made real</span>
         </h1>
       </div>
 
-      <div className={styles.bottomLeft}>
+      <div ref={supportingCopyRef} className={styles.bottomLeft}>
         <p className={styles.subtext}>
           From concept to<br />capable systems
         </p>
@@ -35,7 +31,7 @@ export const HeroTypography = forwardRef<HTMLDivElement>((_, ref) => {
         </p>
       </div>
 
-      <div className={styles.bottomRight}>
+      <div ref={taglineRef} className={styles.bottomRight}>
         <p className={styles.tagline}>
           <span>We are</span>
           <span>Builders</span>
@@ -59,6 +55,4 @@ export const HeroTypography = forwardRef<HTMLDivElement>((_, ref) => {
       </div>
     </div>
   );
-});
-
-HeroTypography.displayName = 'HeroTypography';
+}

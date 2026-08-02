@@ -1,4 +1,5 @@
 import { useRef } from 'react';
+import { HeroNavigation } from './components/HeroNavigation';
 import { HeroPortal } from './components/HeroPortal';
 import { HeroTypography } from './components/HeroTypography';
 import { HeroScrollPrompt } from './components/HeroScrollPrompt';
@@ -9,34 +10,42 @@ export default function Hero() {
   const sectionRef = useRef<HTMLDivElement>(null);
   const portalRef = useRef<HTMLDivElement>(null);
   const setupImgRef = useRef<HTMLImageElement>(null);
-  const typographyRef = useRef<HTMLDivElement>(null);
+  const headlineRef = useRef<HTMLDivElement>(null);
+  const supportingCopyRef = useRef<HTMLDivElement>(null);
+  const taglineRef = useRef<HTMLDivElement>(null);
   const scrollPromptRef = useRef<HTMLDivElement>(null);
-  const transitionOverlayRef = useRef<HTMLDivElement>(null);
 
   useHeroAnimation({
     sectionRef,
     portalRef,
     setupImgRef,
-    typographyRef,
+    headlineRef,
+    supportingCopyRef,
+    taglineRef,
     scrollPromptRef,
-    transitionOverlayRef,
   });
 
   return (
-    <section
-      ref={sectionRef}
-      className={`${styles.heroSection} btm-hero`}
-      id="hero"
-    >
-      <HeroPortal
-        ref={portalRef}
-        setupImgRef={setupImgRef}
-        transitionOverlayRef={transitionOverlayRef}
-      />
+    <>
+      <HeroNavigation />
+      <section
+        ref={sectionRef}
+        className={`${styles.heroSection} btm-hero`}
+        id="hero"
+      >
+        <HeroPortal
+          ref={portalRef}
+          setupImgRef={setupImgRef}
+        />
 
-      <HeroTypography ref={typographyRef} />
+        <HeroTypography
+          headlineRef={headlineRef}
+          supportingCopyRef={supportingCopyRef}
+          taglineRef={taglineRef}
+        />
 
-      <HeroScrollPrompt ref={scrollPromptRef} />
-    </section>
+        <HeroScrollPrompt ref={scrollPromptRef} />
+      </section>
+    </>
   );
 }

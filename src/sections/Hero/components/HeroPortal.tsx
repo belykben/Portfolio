@@ -4,11 +4,10 @@ import styles from '../Hero.module.css';
 
 interface HeroPortalProps {
   setupImgRef: React.RefObject<HTMLImageElement | null>;
-  transitionOverlayRef?: React.RefObject<HTMLDivElement | null>;
 }
 
 export const HeroPortal = forwardRef<HTMLDivElement, HeroPortalProps>(
-  ({ setupImgRef, transitionOverlayRef }, ref) => {
+  ({ setupImgRef }, ref) => {
     return (
       <div ref={ref} className={styles.portalContainer}>
         <div className={styles.setupImageWrapper}>
@@ -20,13 +19,6 @@ export const HeroPortal = forwardRef<HTMLDivElement, HeroPortalProps>(
             loading="eager"
             decoding="async"
           />
-          {transitionOverlayRef && (
-            <div
-              ref={transitionOverlayRef}
-              className={styles.transitionOverlay}
-              aria-hidden="true"
-            />
-          )}
         </div>
       </div>
     );

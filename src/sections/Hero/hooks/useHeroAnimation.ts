@@ -1,147 +1,142 @@
-import { useEffect } from 'react';
+import { useGSAP } from '@gsap/react';
 import gsap from 'gsap';
 import ScrollTrigger from 'gsap/ScrollTrigger';
 import { HERO_CONSTANTS } from '../constants/hero.constants';
 
-gsap.registerPlugin(ScrollTrigger);
+gsap.registerPlugin(ScrollTrigger, useGSAP);
 
 interface UseHeroAnimationParams {
   sectionRef: React.RefObject<HTMLDivElement | null>;
   portalRef: React.RefObject<HTMLDivElement | null>;
   setupImgRef: React.RefObject<HTMLImageElement | null>;
-  typographyRef?: React.RefObject<HTMLDivElement | null>;
+  headlineRef?: React.RefObject<HTMLDivElement | null>;
+  supportingCopyRef?: React.RefObject<HTMLDivElement | null>;
+  taglineRef?: React.RefObject<HTMLDivElement | null>;
   scrollPromptRef?: React.RefObject<HTMLDivElement | null>;
-  transitionOverlayRef?: React.RefObject<HTMLDivElement | null>;
 }
 
 export function useHeroAnimation({
   sectionRef,
   portalRef,
   setupImgRef,
-  typographyRef,
+  headlineRef,
+  supportingCopyRef,
+  taglineRef,
   scrollPromptRef,
-  transitionOverlayRef,
 }: UseHeroAnimationParams) {
-  useEffect(() => {
+  useGSAP(() => {
     const section = sectionRef.current;
     const portal = portalRef.current;
     const setupImg = setupImgRef.current;
-    const typography = typographyRef?.current;
+    const headline = headlineRef?.current;
+    const supportingCopy = supportingCopyRef?.current;
+    const tagline = taglineRef?.current;
     const scrollPrompt = scrollPromptRef?.current;
-    const transitionOverlay = transitionOverlayRef?.current;
 
     if (!section || !portal || !setupImg) return;
 
-    const ctx = gsap.context(() => {
-      gsap.set(portal, {
-        transformOrigin: HERO_CONSTANTS.TRANSFORM_ORIGIN,
-        scale: HERO_CONSTANTS.INITIAL_SCALE,
-        willChange: 'transform',
-        force3D: true,
-      });
+    gsap.set(portal, {
+      transformOrigin: HERO_CONSTANTS.TRANSFORM_ORIGIN,
+      scale: HERO_CONSTANTS.INITIAL_SCALE,
+      willChange: 'transform',
+      force3D: true,
+    });
 
-      gsap.set(setupImg, {
-        willChange: 'transform, opacity',
-        force3D: true,
-      });
+    gsap.set(setupImg, {
+      willChange: 'transform',
+      force3D: true,
+    });
 
-      if (typography) {
-        gsap.set(typography, {
-          willChange: 'transform, opacity',
-          force3D: true,
-        });
-      }
+    const textPlanes = [headline, supportingCopy, tagline, scrollPrompt]
+      .filter((element): element is HTMLDivElement => Boolean(element));
 
-      if (scrollPrompt) {
-        gsap.set(scrollPrompt, {
-          willChange: 'transform, opacity',
-          force3D: true,
-        });
-      }
+    gsap.set(textPlanes, {
+      willChange: 'transform',
+      force3D: true,
+    });
 
-      const masterTL = gsap.timeline({
-        scrollTrigger: {
-          trigger: section,
-          start: 'top top',
-          end: `+=${HERO_CONSTANTS.PIN_SPACER_VH}%`,
-          pin: true,
-          scrub: 0.3,
-          anticipatePin: 1,
-          invalidateOnRefresh: true,
-        },
-      });
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      return;
+    }
 
-      if (typography) {
-        masterTL.to(
-          typography,
-          {
-            y: -100,
-            opacity: 0,
-            scale: 0.96,
-            ease: 'power2.in',
-            duration: HERO_CONSTANTS.TIMELINE_PHASES.TEXT_EXIT_END,
-          },
-          0
-        );
-      }
+    const masterTL = gsap.timeline({
+      scrollTrigger: {
+        trigger: section,
+        start: 'top top',
+        end: () => `+=${HERO_CONSTANTS.PIN_SPACER_VH}%`,
+        pin: true,
+        scrub: 0.35,
+        anticipatePin: 1,
+        invalidateOnRefresh: true,
+      },
+    });
 
-      if (scrollPrompt) {
-        masterTL.to(
-          scrollPrompt,
-          {
-            y: 40,
-            opacity: 0,
-            ease: 'power2.in',
-            duration: HERO_CONSTANTS.TIMELINE_PHASES.TEXT_EXIT_END * 0.6,
-          },
-          0
-        );
-      }
+    // The artwork is a distant plane travelling into the portal. The type sits
+    // in front of it and takes separate, outward paths to create the parallax.
+    masterTL.to(
+      portal,
+      {
+        scale: HERO_CONSTANTS.FINAL_SCALE,
+        xPercent: -2.5,
+        yPercent: 1.5,
+        ease: 'power1.out',
+        duration: 0.98,
+      },
+      0
+    );
 
-      masterTL.to(
-        portal,
-        {
-          scale: HERO_CONSTANTS.FINAL_SCALE,
-          ease: 'power1.inOut',
-          duration: 1,
-        },
-        0
-      );
+    if (headline) {
+      masterTL.to(headline, {
+        x: () => -window.innerWidth * 1.15,
+        y: () => -window.innerHeight * 0.34,
+        scale: 2.2,
+        rotation: -2,
+        ease: 'power2.out',
+        duration: HERO_CONSTANTS.TIMELINE_PHASES.TEXT_ACCELERATION_END,
+      }, HERO_CONSTANTS.TIMELINE_PHASES.TEXT_ACCELERATION_START);
+    }
 
-      masterTL.to(
-        setupImg,
-        {
-          opacity: 0,
-          ease: 'power2.inOut',
-          duration:
-            HERO_CONSTANTS.TIMELINE_PHASES.HARDWARE_DISSOLVE_END -
-            HERO_CONSTANTS.TIMELINE_PHASES.HARDWARE_DISSOLVE_START,
-        },
-        HERO_CONSTANTS.TIMELINE_PHASES.HARDWARE_DISSOLVE_START
-      );
+    if (supportingCopy) {
+      masterTL.to(supportingCopy, {
+        x: () => -window.innerWidth * 0.75,
+        y: () => window.innerHeight * 0.55,
+        scale: 1.72,
+        rotation: -1.2,
+        ease: 'power2.out',
+        duration: HERO_CONSTANTS.TIMELINE_PHASES.TEXT_EXIT_END,
+      }, HERO_CONSTANTS.TIMELINE_PHASES.TEXT_ACCELERATION_START);
+    }
 
-      if (transitionOverlay) {
-        masterTL.to(
-          transitionOverlay,
-          {
-            opacity: 0.45,
-            ease: 'power1.out',
-            duration: 0.25,
-          },
-          0.75
-        );
-      }
-    }, section);
+    if (tagline) {
+      masterTL.to(tagline, {
+        x: () => window.innerWidth * 0.86,
+        y: () => window.innerHeight * 0.45,
+        scale: 2.28,
+        rotation: 1.8,
+        ease: 'power2.out',
+        duration: HERO_CONSTANTS.TIMELINE_PHASES.TEXT_ACCELERATION_END,
+      }, HERO_CONSTANTS.TIMELINE_PHASES.TEXT_ACCELERATION_START);
+    }
+
+    if (scrollPrompt) {
+      masterTL.to(scrollPrompt, {
+        x: () => window.innerWidth * 0.38,
+        y: () => window.innerHeight * 0.34,
+        scale: 1.18,
+        ease: 'power3.out',
+        duration: HERO_CONSTANTS.TIMELINE_PHASES.TEXT_EXIT_END * 0.58,
+      }, HERO_CONSTANTS.TIMELINE_PHASES.TEXT_ACCELERATION_START);
+    }
+
+    const refreshScrollTrigger = () => ScrollTrigger.refresh();
+    if (!setupImg.complete) {
+      setupImg.addEventListener('load', refreshScrollTrigger, { once: true });
+    } else {
+      requestAnimationFrame(refreshScrollTrigger);
+    }
 
     return () => {
-      ctx.revert();
+      setupImg.removeEventListener('load', refreshScrollTrigger);
     };
-  }, [
-    sectionRef,
-    portalRef,
-    setupImgRef,
-    typographyRef,
-    scrollPromptRef,
-    transitionOverlayRef,
-  ]);
+  }, { scope: sectionRef });
 }
