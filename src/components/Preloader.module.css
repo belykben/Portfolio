@@ -1,0 +1,175 @@
+/* ─────────────────────────────────────────────────────────
+   Preloader.module.css
+   All positioning uses fixed/absolute — no layout impact.
+   Only transform + opacity animated (compositor-only).
+   ───────────────────────────────────────────────────────── */
+
+/* ── Root ────────────────────────────────────────────────── */
+.preloaderRoot {
+  position: relative;
+  pointer-events: none;
+}
+
+/* ── Intro background overlay ────────────────────────────── */
+.introBg {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  height: 100dvh;
+  background: oklch(0.085 0.004 35);
+  pointer-events: none;
+}
+
+/* ── Transition panels ───────────────────────────────────── */
+.transitionPanel {
+  position: fixed;
+  inset: 0;
+  z-index: 102;
+  height: 100dvh;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.tPanelDark,
+.tPanelRed {
+  position: absolute;
+  inset: 0;
+  will-change: transform;
+}
+
+.tPanelDark {
+  z-index: 1;
+  background: oklch(0.085 0.004 35);
+}
+
+.tPanelRed {
+  z-index: 2;
+  background: oklch(0.65 0.27 29); /* --accent-hot */
+}
+
+/* ── Name layer ──────────────────────────────────────────── */
+.nameLayer {
+  position: fixed;
+  inset: 0;
+  z-index: 105;
+  display: grid;
+  place-items: center;
+  height: 100dvh;
+  overflow: hidden;
+  color: oklch(0.91 0.008 75);
+  pointer-events: none;
+}
+
+/* ── Preloader content ───────────────────────────────────── */
+.preloaderContent {
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  gap: clamp(0.5rem, 3vw, 3.2rem);
+  font-size: clamp(2.8rem, 9vw, 9.2rem);
+  line-height: 0.9;
+  white-space: nowrap;
+  transform-origin: 50% 50%;
+  will-change: transform, opacity;
+}
+
+.preloaderSegment {
+  display: inline-flex;
+  align-items: baseline;
+}
+
+/* ── Char mask — clip overflow to hide chars below baseline ─ */
+.charMask {
+  display: inline-block;
+  padding: 0.16em 0.04em;
+  margin: -0.16em -0.04em;
+  overflow: hidden;
+  vertical-align: top;
+}
+
+.charMask.space {
+  width: 0.28em;
+}
+
+.charReveal {
+  display: inline-block;
+  will-change: transform, opacity;
+}
+
+/* ── Typography variants ─────────────────────────────────── */
+.preloaderFirst {
+  font-family: Archivo, Inter, sans-serif;
+  font-weight: 520;
+  letter-spacing: -0.07em;
+}
+
+.preloaderLast,
+.preloaderDot {
+  font-family: Georgia, 'Times New Roman', serif;
+  font-style: italic;
+  font-weight: 400;
+  letter-spacing: -0.09em;
+  color: oklch(0.88 0.032 163); /* soft mint accent */
+}
+
+.preloaderDot {
+  margin-left: -0.18em;
+}
+
+/* ── Scroll progress indicators ──────────────────────────── */
+.scrollPct,
+.scrollTimeline {
+  position: fixed;
+  z-index: 96;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.72rem;
+  font-weight: 800;
+  color: oklch(0.91 0.008 75);
+  mix-blend-mode: difference;
+  opacity: 0.92;
+  pointer-events: none;
+}
+
+.scrollPct {
+  left: clamp(1rem, 1.5vw, 1.8rem);
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.scrollTimeline {
+  right: clamp(1rem, 1.7vw, 1.9rem);
+  top: 10vh;
+  display: grid;
+  grid-template-columns: auto 1px;
+  gap: 0.65rem;
+  align-items: start;
+  height: 78vh;
+}
+
+.scrollTimeline span {
+  margin-top: 18.5vh;
+}
+
+.scrollTrack {
+  position: relative;
+  width: 1px;
+  height: 100%;
+  background: oklch(0.92 0.006 75 / 0.22);
+  transform-origin: top;
+}
+
+.scrollBar {
+  width: 1px;
+  height: 100%;
+  background: oklch(0.91 0.008 75);
+  transform: scaleY(0.04);
+  transform-origin: top;
+}
+
+/* ── Scroll wrap (gives page scroll height for scrub) ─────── */
+.scrollWrap {
+  position: relative;
+  min-height: 250vh;
+  z-index: 1;
+  background: var(--bg);
+}
