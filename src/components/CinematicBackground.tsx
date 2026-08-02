@@ -14,27 +14,24 @@ type CloudLayerDefinition = {
 
 const CLOUD_LAYERS: readonly CloudLayerDefinition[] = [
   {
-    id: 'large',
-    className: styles.largeClouds,
-    clouds: [
-      { src: ASSET_URLS.clouds.cloud1, positionClass: styles.cloud1 },
-      { src: ASSET_URLS.clouds.cloud2, positionClass: styles.cloud2 },
-    ],
-  },
-  {
     id: 'medium',
     className: styles.mediumClouds,
     clouds: [
       { src: ASSET_URLS.clouds.cloud3, positionClass: styles.cloud3 },
-      { src: ASSET_URLS.clouds.cloud4, positionClass: styles.cloud4 },
       { src: ASSET_URLS.clouds.cloud5, positionClass: styles.cloud5 },
+    ],
+  },
+  {
+    id: 'cloud4-layer',
+    className: styles.cloud4Layer,
+    clouds: [
+      { src: ASSET_URLS.clouds.cloud4, positionClass: styles.cloud4 },
     ],
   },
   {
     id: 'foreground',
     className: styles.foregroundClouds,
     clouds: [
-      { src: ASSET_URLS.clouds.cloud6, positionClass: styles.cloud6 },
       { src: ASSET_URLS.clouds.cloud7, positionClass: styles.cloud7 },
     ],
   },

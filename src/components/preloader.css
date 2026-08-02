@@ -120,8 +120,152 @@
   z-index: 1;
 }
 
+/* ── Continuous background layer behind hero and page sections ── */
+.btm-bg-layer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 0;
+  pointer-events: none;
+}
+
 /* ── Hero section ──────────────────────────────────────────── */
 .btm-hero {
   position: relative;
   isolation: isolate;
+}
+
+/* ── Content Sections (Blended seamlessly with hero floor color) ── */
+.btm-section {
+  position: relative;
+  z-index: 2;
+  background-color: oklch(0.075 0.018 273); /* Exact night-floor color matching hero bottom */
+  padding: clamp(4rem, 10vh, 8rem) clamp(1.5rem, 5vw, 4rem);
+  border: none; /* NO separation line anywhere */
+}
+
+/* Section 1 smooth gradient overlap over bottom of hero scene */
+.btm-section-about {
+  margin-top: -30vh;
+  padding-top: max(32vh, 8rem);
+  background: linear-gradient(
+    180deg,
+    transparent 0%,
+    oklch(0.075 0.018 273 / 0.5) 15vh,
+    oklch(0.075 0.018 273 / 0.9) 28vh,
+    oklch(0.075 0.018 273) 40vh
+  );
+}
+
+.btm-section-container {
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.btm-section-tag {
+  display: inline-block;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  color: oklch(0.65 0.27 29);
+  text-transform: uppercase;
+  margin-bottom: 0.75rem;
+}
+
+.btm-section-title {
+  font-family: Archivo, Inter, sans-serif;
+  font-size: clamp(2rem, 4vw, 3.2rem);
+  font-weight: 520;
+  letter-spacing: -0.04em;
+  color: oklch(0.95 0.008 75);
+  margin-bottom: 2.5rem;
+}
+
+.btm-grid-placeholder {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.75rem;
+}
+
+.btm-grid-3 {
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+}
+
+.btm-card-placeholder {
+  position: relative;
+  background: oklch(0.10 0.018 273 / 0.7);
+  border: 1px solid oklch(0.9 0.006 75 / 0.06);
+  border-radius: 16px;
+  padding: 2.25rem 2rem;
+  transition: transform 0.3s ease, border-color 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease;
+  backdrop-filter: blur(12px);
+}
+
+.btm-card-placeholder:hover {
+  transform: translateY(-4px);
+  border-color: oklch(0.65 0.27 29 / 0.4);
+  background: oklch(0.12 0.02 273 / 0.85);
+  box-shadow: 0 12px 32px oklch(0 0 0 / 0.3);
+}
+
+.btm-card-num {
+  display: block;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: oklch(0.65 0.27 29);
+  margin-bottom: 1.25rem;
+}
+
+.btm-card-placeholder h3 {
+  font-family: Archivo, Inter, sans-serif;
+  font-size: 1.35rem;
+  font-weight: 520;
+  color: oklch(0.93 0.008 75);
+  margin-bottom: 0.85rem;
+  letter-spacing: -0.02em;
+}
+
+.btm-card-placeholder p {
+  font-size: 0.98rem;
+  line-height: 1.65;
+  color: oklch(0.68 0.01 75);
+}
+
+.btm-contact-container {
+  text-align: center;
+  max-width: 680px;
+  padding: 2.5rem 1rem;
+}
+
+.btm-contact-desc {
+  font-size: 1.15rem;
+  line-height: 1.7;
+  color: oklch(0.72 0.01 75);
+  margin-bottom: 2.25rem;
+}
+
+.btm-btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.95rem 2.4rem;
+  border-radius: 9999px;
+  background: oklch(0.65 0.27 29);
+  color: oklch(0.98 0 0);
+  font-family: Archivo, Inter, sans-serif;
+  font-weight: 520;
+  font-size: 0.95rem;
+  text-decoration: none;
+  letter-spacing: 0.02em;
+  transition: transform 0.25s ease, background-color 0.25s ease, box-shadow 0.25s ease;
+  box-shadow: 0 4px 20px oklch(0.65 0.27 29 / 0.35);
+}
+
+.btm-btn-primary:hover {
+  transform: translateY(-2px);
+  background: oklch(0.68 0.28 29);
+  box-shadow: 0 6px 28px oklch(0.65 0.27 29 / 0.5);
 }

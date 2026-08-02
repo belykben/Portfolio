@@ -16,6 +16,7 @@
 import { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import ScrollTrigger from 'gsap/ScrollTrigger';
+import Hero from '../sections/Hero/Hero';
 import CinematicBackground from './CinematicBackground';
 import './preloader.css';
 
@@ -91,9 +92,6 @@ export default function Preloader() {
       const transitionPanel  = document.querySelector<HTMLElement>('.btm-transition-panel')!;
       const tPanelRed        = document.querySelector<HTMLElement>('.btm-t-panel-red')!;
       const tPanelDark       = document.querySelector<HTMLElement>('.btm-t-panel-dark')!;
-      const firstName        = document.querySelector<HTMLElement>('.btm-preloader-first')!;
-      const lastName         = document.querySelector<HTMLElement>('.btm-preloader-last')!;
-      const dotName          = document.querySelector<HTMLElement>('.btm-preloader-dot')!;
       const chars            = gsap.utils.toArray<HTMLElement>('.btm-char-reveal');
 
       // ── Step 3: Compute name settle position ─────────────────────
@@ -151,40 +149,20 @@ export default function Preloader() {
         .set(nameLayer, { mixBlendMode: 'difference' }, '-=0.4')
         .set(transitionPanel, { display: 'none' });
 
-      // ── Step 7: Hero background parallax ─────────────────────────
-      // ── Step 8: Scroll-driven name split + reveal ─────────────────
-      const exitLeft  = window.innerWidth <= 768 ? '-38vw' : '-55vw';
-      const exitRight = window.innerWidth <= 768 ? '38vw'  : '55vw';
-
+      // ── Step 8: Scroll-driven hero text movement (No splitting) ──
       const heroScroll = gsap.timeline({
         scrollTrigger: {
-          trigger: '.btm-scroll-wrap',
+          trigger: '.btm-hero',
           start: 'top top',
-          end: 'bottom bottom',
-          scrub: 0.5,
+          end: 'bottom top',
+          scrub: true,
         },
       });
 
-      heroScroll
-        .fromTo(
-          preloaderContent,
-          { x: nameSettle.x, y: nameSettle.y, scale: nameSettle.scale },
-          { x: nameSettle.x, y: 0, duration: 0.3, ease: 'none', immediateRender: false },
-          0,
-        )
-        .fromTo(
-          firstName,
-          { x: 0, autoAlpha: 1 },
-          { x: exitLeft, autoAlpha: 0, duration: 0.7, ease: 'none', immediateRender: false },
-          0.3,
-        )
-        .fromTo(
-          [lastName, dotName],
-          { x: 0, autoAlpha: 1 },
-          { x: exitRight, autoAlpha: 0, duration: 0.7, ease: 'none', immediateRender: false },
-          0.3,
-        )
-        .set(nameLayer, { autoAlpha: 0 }, 0.98);
+      heroScroll.to(preloaderContent, {
+        y: nameSettle.y - window.innerHeight,
+        ease: 'none',
+      });
     });
 
     return () => ctx.revert();
@@ -210,11 +188,72 @@ export default function Preloader() {
         </div>
       </div>
 
-      {/* ── Scroll progress indicators ───────────────────────────── */}
-      {/* ── Main scroll container + hero + content ───────────────── */}
+      {/* ── Main scroll container + hero + blended empty sections ── */}
       <div className="btm-scroll-wrap">
-        <section className="btm-hero">
+        <div className="btm-bg-layer">
           <CinematicBackground />
+        </div>
+        <Hero />
+
+        {/* ── Section 1: Overview ──────────────────────────────── */}
+        <section className="btm-section btm-section-about" id="about">
+          <div className="btm-section-container">
+            <span className="btm-section-tag">01 // OVERVIEW</span>
+            <h2 className="btm-section-title">About & Philosophy</h2>
+            <div className="btm-grid-placeholder">
+              <div className="btm-card-placeholder">
+                <span className="btm-card-num">01</span>
+                <h3>Architecture & Systems</h3>
+                <p>Building high-performance web applications with modern design systems and smooth micro-interactions.</p>
+              </div>
+              <div className="btm-card-placeholder">
+                <span className="btm-card-num">02</span>
+                <h3>Creative Engineering</h3>
+                <p>Blending motion, physics, and atmospheric visuals with rock-solid frontend engineering.</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* ── Section 2: Portfolio ─────────────────────────────── */}
+        <section className="btm-section btm-section-projects" id="projects">
+          <div className="btm-section-container">
+            <span className="btm-section-tag">02 // PORTFOLIO</span>
+            <h2 className="btm-section-title">Featured Projects</h2>
+            <div className="btm-grid-placeholder btm-grid-3">
+              <div className="btm-card-placeholder">
+                <span className="btm-card-num">01</span>
+                <h3>Cinematic Hero Engine</h3>
+                <p>Multi-layered atmospheric cloud engine with 60 FPS translate3d depth layering.</p>
+              </div>
+              <div className="btm-card-placeholder">
+                <span className="btm-card-num">02</span>
+                <h3>Interactive Design Systems</h3>
+                <p>Tailored UI components with zero-dependency animations and dark mode aesthetic.</p>
+              </div>
+              <div className="btm-card-placeholder">
+                <span className="btm-card-num">03</span>
+                <h3>Full-Stack Applications</h3>
+                <p>Scalable web applications built for speed, responsiveness, and user engagement.</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* ── Section 3: Contact ───────────────────────────────── */}
+        <section className="btm-section btm-section-contact" id="contact">
+          <div className="btm-section-container btm-contact-container">
+            <span className="btm-section-tag">03 // CONNECT</span>
+            <h2 className="btm-section-title">Let's Create Together</h2>
+            <p className="btm-contact-desc">
+              Currently available for select engineering projects, creative UI visual systems, and full-stack positions.
+            </p>
+            <div className="btm-contact-actions">
+              <a href="mailto:contact@example.com" className="btm-btn-primary">
+                Get In Touch
+              </a>
+            </div>
+          </div>
         </section>
       </div>
     </>

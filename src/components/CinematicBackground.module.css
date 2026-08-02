@@ -3,7 +3,7 @@
 
   position: relative;
   isolation: isolate;
-  min-height: max(220svh, 124.14vw);
+  min-height: max(100vh, 124.14vw);
   overflow: hidden;
   background: var(--night-floor);
 }
@@ -26,8 +26,11 @@
   content: '';
   background: linear-gradient(
     180deg,
-    transparent 71%,
-    oklch(0.075 0.018 273 / 0.48) 88%,
+    transparent 0%,
+    transparent 42%,
+    oklch(0.075 0.018 273 / 0.15) 60%,
+    oklch(0.075 0.018 273 / 0.55) 78%,
+    oklch(0.075 0.018 273 / 0.92) 92%,
     var(--night-floor) 100%
   );
   pointer-events: none;
@@ -60,6 +63,7 @@
   height: 100%;
   will-change: transform;
   backface-visibility: hidden;
+  perspective: 1000px;
   transform: translate3d(0, 0, 0);
   animation: drift-left 160s linear infinite;
 }
@@ -78,23 +82,13 @@
   max-width: none;
   user-select: none;
   pointer-events: none;
-  transform: translate3d(0, 0, 0);
+  -webkit-user-drag: none;
 }
 
-/* Depth comes from speed, opacity and a restrained blur, never from a vertical
-   bob. That keeps the title reveal calm and all repeated motion horizontal. */
-.largeClouds {
-  opacity: 0.6;
-  filter: blur(3.25px);
-}
-
-.largeClouds .cloudTrack {
-  animation-duration: 172s;
-}
-
+/* Depth comes from speed, reduced opacity and a restrained blur, kept strictly horizontal. */
 .mediumClouds {
-  opacity: 0.74;
-  filter: blur(1.25px);
+  opacity: 0.38;
+  filter: blur(1px);
 }
 
 .mediumClouds .cloudTrack {
@@ -102,55 +96,47 @@
   animation-duration: 116s;
 }
 
+.cloud4Layer {
+  opacity: 0.38;
+  filter: blur(1px);
+}
+
+.cloud4Layer .cloudTrack {
+  animation-name: drift-left;
+  animation-duration: 124s;
+}
+
 .foregroundClouds {
-  opacity: 0.9;
-  filter: blur(0.25px);
+  opacity: 0.45;
 }
 
 .foregroundClouds .cloudTrack {
+  animation-name: drift-left;
   animation-duration: 78s;
 }
 
-.cloud1 {
-  top: 7%;
-  left: -15%;
-  width: 68%;
-}
-
-.cloud2 {
-  top: 26%;
-  left: 51%;
-  width: 61%;
-}
-
 .cloud3 {
-  top: 18%;
-  left: -11%;
-  width: 56%;
+  top: 6%;
+  left: -8%;
+  width: 50%;
 }
 
 .cloud4 {
-  top: 45%;
-  left: 27%;
-  width: 52%;
+  top: 20%;
+  left: 24%;
+  width: 46%;
 }
 
 .cloud5 {
-  top: 66%;
-  left: 74%;
-  width: 48%;
-}
-
-.cloud6 {
-  top: 39%;
-  left: -24%;
-  width: 78%;
+  top: 10%;
+  left: 62%;
+  width: 42%;
 }
 
 .cloud7 {
-  top: 70%;
-  left: 43%;
-  width: 78%;
+  top: 24%;
+  left: 38%;
+  width: 58%;
 }
 
 @keyframes drift-left {
@@ -178,18 +164,6 @@
     min-height: max(205svh, 124.14vw);
   }
 
-  .largeClouds {
-    filter: blur(2.5px);
-  }
-
-  .cloud1 {
-    width: 92%;
-  }
-
-  .cloud2 {
-    width: 86%;
-  }
-
   .cloud3 {
     width: 79%;
   }
@@ -202,7 +176,6 @@
     width: 72%;
   }
 
-  .cloud6,
   .cloud7 {
     width: 105%;
   }

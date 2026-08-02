@@ -1,0 +1,227 @@
+.heroSection {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  min-height: 700px;
+  overflow: hidden;
+  user-select: none;
+  contain: layout paint;
+  background-color: transparent;
+}
+
+.bgWrapper {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.portalContainer {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  will-change: transform;
+  transform: translate3d(0, 0, 0);
+  pointer-events: none;
+  backface-visibility: hidden;
+}
+
+.setupImageWrapper {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2;
+}
+
+.setupImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  will-change: transform, opacity, filter;
+  transform: translate3d(0, 0, 0);
+  backface-visibility: hidden;
+}
+
+.transitionOverlay {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 50% 46.25%, transparent 30%, rgba(4, 7, 20, 0.8) 100%);
+  opacity: 0;
+  pointer-events: none;
+  will-change: opacity;
+}
+
+.typographyWrapper {
+  position: absolute;
+  inset: 0;
+  z-index: 10;
+  pointer-events: none;
+  will-change: transform, opacity;
+  transform: translate3d(0, 0, 0);
+  font-family: inherit;
+  color: #ffffff;
+}
+
+.topLeft {
+  position: absolute;
+  top: clamp(5rem, 9vh, 6.5rem);
+  left: clamp(1.5rem, 4vw, 4rem);
+  max-width: 55%;
+  pointer-events: auto;
+}
+
+.primaryHeadline {
+  font-size: clamp(2.5rem, 6vw, 5rem);
+  font-weight: 800;
+  line-height: 1.05;
+  letter-spacing: -0.03em;
+  text-transform: uppercase;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.primaryHeadline span:first-child {
+  opacity: 0.65;
+  font-size: 0.5em;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.primaryHeadline span:last-child {
+  background: linear-gradient(135deg, #ffffff 0%, #a5b4fc 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: 0 0 40px rgba(165, 180, 252, 0.3);
+}
+
+.bottomLeft {
+  position: absolute;
+  bottom: clamp(4.5rem, 10vh, 7rem);
+  left: clamp(1.5rem, 4vw, 4rem);
+  max-width: 280px;
+  pointer-events: auto;
+}
+
+.subtext {
+  font-size: clamp(0.9rem, 1.2vw, 1.1rem);
+  line-height: 1.5;
+  color: rgba(255, 255, 255, 0.75);
+  margin: 0;
+  font-weight: 400;
+}
+
+.bottomRight {
+  position: absolute;
+  bottom: clamp(4.5rem, 10vh, 7rem);
+  right: clamp(1.5rem, 4vw, 4rem);
+  text-align: right;
+  pointer-events: auto;
+}
+
+.tagline {
+  font-size: clamp(1.2rem, 2.2vw, 1.8rem);
+  font-weight: 700;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.tagline span:first-child {
+  font-size: 0.6em;
+  font-weight: 400;
+  opacity: 0.6;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.tagline span:last-child {
+  color: #ffffff;
+}
+
+.bottomCenter {
+  position: absolute;
+  bottom: clamp(4.5rem, 10vh, 7rem);
+  left: 50%;
+  transform: translateX(-50%);
+  pointer-events: auto;
+}
+
+.exploreBtn {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.75rem 1.75rem;
+  border-radius: 9999px;
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: #ffffff;
+  font-size: 0.875rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-decoration: none;
+  text-transform: uppercase;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+}
+
+.exploreBtn:hover {
+  background: rgba(255, 255, 255, 0.18);
+  border-color: rgba(255, 255, 255, 0.35);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 30px rgba(165, 180, 252, 0.25);
+}
+
+.scrollBar {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem clamp(1.5rem, 4vw, 4rem);
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  background: linear-gradient(to top, rgba(4, 7, 20, 0.8), transparent);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  color: rgba(255, 255, 255, 0.6);
+  will-change: transform, opacity;
+  pointer-events: none;
+}
+
+.scrollIndicator {
+  width: 1px;
+  height: 24px;
+  background: rgba(255, 255, 255, 0.2);
+  position: relative;
+  overflow: hidden;
+}
+
+.scrollDot {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 50%;
+  background: #ffffff;
+  animation: scrollPulse 2s ease-in-out infinite;
+}
+
+@keyframes scrollPulse {
+  0% { transform: translateY(-100%); }
+  50% { transform: translateY(100%); }
+  100% { transform: translateY(100%); }
+}
