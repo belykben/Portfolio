@@ -71,6 +71,12 @@ export function useHeroAnimation({
       },
     });
 
+    masterTL.eventCallback('onUpdate', () => {
+      document.dispatchEvent(new CustomEvent('hero-parallax-progress', {
+        detail: masterTL.progress(),
+      }));
+    });
+
     // The artwork is a distant plane travelling into the portal. The type sits
     // in front of it and takes separate, outward paths to create the parallax.
     masterTL.to(

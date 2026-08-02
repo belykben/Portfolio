@@ -1,0 +1,46 @@
+.text-roll-container {
+  position: relative;
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: bottom;
+  line-height: 1;
+  padding-bottom: 0.08em;
+  font-family: inherit;
+  color: inherit;
+}
+
+.text-roll-top {
+  display: inline-flex;
+  white-space: nowrap;
+}
+
+.text-roll-bottom {
+  position: absolute;
+  inset: 0;
+  display: inline-flex;
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+.text-roll-char {
+  display: inline-block;
+  will-change: transform;
+  font-family: inherit;
+  color: inherit;
+}
+
+.text-roll-char-initial-bottom {
+  transform: translateY(150%);
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}

@@ -19,6 +19,7 @@ import gsap from 'gsap';
 import ScrollTrigger from 'gsap/ScrollTrigger';
 import Hero from '../sections/Hero/Hero';
 import CinematicBackground from './CinematicBackground';
+import TextRoll from './TextRoll';
 import './preloader.css';
 
 gsap.registerPlugin(ScrollTrigger, useGSAP);
@@ -89,6 +90,24 @@ function getHeroNameLock(preloaderContent: HTMLElement) {
     x: targetCenterX - sourceCenterX,
     y: targetCenterY - sourceCenterY,
     scale,
+  };
+}
+
+function getHeroNameHeaderLock(preloaderContent: HTMLElement) {
+  const navigation = document.querySelector<HTMLElement>('[data-hero-navigation]');
+  const navigationBounds = navigation?.getBoundingClientRect();
+  const mobile = window.innerWidth <= 768;
+  const targetWidth = mobile
+    ? Math.min(window.innerWidth * 0.42, 176)
+    : Math.min(window.innerWidth * 0.12, 232);
+  const headerCenterY = navigationBounds
+    ? navigationBounds.top + navigationBounds.height / 2
+    : Math.min(Math.max(window.innerHeight * 0.041, 32), 48) + 10;
+
+  return {
+    x: 0,
+    y: headerCenterY - window.innerHeight / 2,
+    scale: targetWidth / preloaderContent.offsetWidth,
   };
 }
 
@@ -171,20 +190,24 @@ export default function Preloader() {
         )
         .set(transitionPanel, { display: 'none' });
 
-      // ── Step 8: Scroll-driven hero text movement (No splitting) ──
-      const heroScroll = gsap.timeline({
-        scrollTrigger: {
-          trigger: '.btm-hero',
-          start: 'top top',
-          end: 'bottom top',
-          scrub: true,
-        },
-      });
+      // ── Step 8: Match the name to the hero's exact rendered progress ──
+      const moveNameIntoHeader = (event: Event) => {
+        const heroProgress = (event as CustomEvent<number>).detail;
+        const progress = Math.min(heroProgress / 0.76, 1);
+        const headerLock = getHeroNameHeaderLock(preloaderContent);
 
-      heroScroll.to(preloaderContent, {
-        y: nameLock.y - window.innerHeight,
-        ease: 'none',
-      });
+        gsap.set(preloaderContent, {
+          x: gsap.utils.interpolate(nameLock.x, headerLock.x, progress),
+          y: gsap.utils.interpolate(nameLock.y, headerLock.y, progress),
+          scale: gsap.utils.interpolate(nameLock.scale, headerLock.scale, progress),
+        });
+      };
+
+      document.addEventListener('hero-parallax-progress', moveNameIntoHeader);
+
+      return () => {
+        document.removeEventListener('hero-parallax-progress', moveNameIntoHeader);
+      };
   }, { scope: preloaderRef });
 
   return (
@@ -269,7 +292,7 @@ export default function Preloader() {
             </p>
             <div className="btm-contact-actions">
               <a href="mailto:contact@example.com" className="btm-btn-primary">
-                Get In Touch
+                <TextRoll>Get In Touch</TextRoll>
               </a>
             </div>
           </div>
