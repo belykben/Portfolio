@@ -373,7 +373,7 @@ export default function DevicesShowcase() {
 
         // Position of last group's top edge relative to viewport top when y = 0
         const lastGroupYInViewport = initialListTop + lastGroupOffset;
-        const viewportCenter = window.innerHeight * 0.7;
+        const viewportCenter = window.innerHeight * 0.8;
 
         // targetY brings the top edge of the last group to 50vh (screen center) and stops
         const targetY = Math.max(0, lastGroupYInViewport - viewportCenter);

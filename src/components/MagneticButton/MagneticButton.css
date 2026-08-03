@@ -1,0 +1,91 @@
+/* ─────────────────────────────────────────────────────────────
+   MagneticButton.css
+   Pure Vanilla CSS styling for GSAP Magnetic Button component.
+   ───────────────────────────────────────────────────────────── */
+
+.magnetic-wrapper {
+  position: relative;
+  display: inline-flex;
+  will-change: transform;
+}
+
+.magnetic-btn {
+  position: relative;
+  overflow: hidden;
+  border-radius: 9999px;
+  cursor: pointer;
+  outline: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: "Outfit", "Archivo", system-ui, sans-serif;
+  font-weight: 700;
+  text-decoration: none;
+  box-sizing: border-box;
+  transition: border-color 0.4s ease, color 0.4s ease;
+  user-select: none;
+}
+
+.magnetic-btn-md {
+  padding: 1.15rem 2.8rem;
+  min-width: 180px;
+  font-size: clamp(0.95rem, 1.1vw, 1.15rem);
+}
+
+.magnetic-btn-sm {
+  padding: 0.85rem 2rem;
+  min-width: 140px;
+  font-size: clamp(0.85rem, 1vw, 1rem);
+}
+
+/* Fill variant styling for dark luxury portfolio */
+.magnetic-btn-fill {
+  background: #1c1d20;
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+}
+
+.magnetic-btn-fill:hover {
+  border-color: oklch(0.89 0.029 195);
+}
+
+/* Outline variant */
+.magnetic-btn-outline {
+  background: transparent;
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.magnetic-btn-outline:hover {
+  border-color: oklch(0.89 0.029 195);
+}
+
+/* Fill background circle animated with GSAP */
+.magnetic-btn-fill-circle {
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 150%;
+  height: 150%;
+  border-radius: 50%;
+  background: oklch(0.89 0.029 195);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.magnetic-btn-text {
+  position: relative;
+  z-index: 10;
+  white-space: nowrap;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  transition: color 0.3s ease;
+  pointer-events: none;
+}
+
+.magnetic-btn-fill:hover .magnetic-btn-text,
+.magnetic-btn-outline:hover .magnetic-btn-text {
+  color: #060010;
+}
