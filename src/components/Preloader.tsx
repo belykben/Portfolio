@@ -26,9 +26,6 @@ import './preloader.css';
 
 gsap.registerPlugin(ScrollTrigger, useGSAP);
 
-// ─────────────────────────────────────────────────────────────────────────────
-// char mask builder — exact copy of createMaskedText() from the reference
-// ─────────────────────────────────────────────────────────────────────────────
 function createMaskedText(el: HTMLElement) {
   const text = el.getAttribute('data-text') ?? '';
   el.innerHTML = '';
@@ -53,9 +50,6 @@ function createMaskedText(el: HTMLElement) {
   });
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
-// settle calculation — exact copy of getHeroNameSettle() from the reference
-// ─────────────────────────────────────────────────────────────────────────────
 function getHeroNameBottomSettle(preloaderContent: HTMLElement) {
   gsap.set(preloaderContent, { clearProps: 'transform' });
   const source = preloaderContent.getBoundingClientRect();
@@ -113,7 +107,6 @@ function getHeroNameHeaderLock(preloaderContent: HTMLElement) {
   };
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
 export default function Preloader() {
   const preloaderRef = useRef<HTMLDivElement>(null);
 
@@ -121,10 +114,8 @@ export default function Preloader() {
     const root = preloaderRef.current;
     if (!root) return;
 
-    // ── Step 1: Build character masks (same as vanilla HTML) ────
     root.querySelectorAll<HTMLElement>('[data-text]').forEach(createMaskedText);
 
-    // ── Step 2: Grab DOM references ─────────────────────────────
     const preloaderContent = root.querySelector<HTMLElement>('#btmPreloaderContent')!;
     const introBg = root.querySelector<HTMLElement>('.btm-intro-bg')!;
     const transitionPanel = root.querySelector<HTMLElement>('.btm-transition-panel')!;
@@ -132,13 +123,10 @@ export default function Preloader() {
     const tPanelDark = root.querySelector<HTMLElement>('.btm-t-panel-dark')!;
     const chars = gsap.utils.toArray<HTMLElement>(root.querySelectorAll('.btm-char-reveal'));
 
-    // ── Step 3: Compute name settle position ─────────────────────
     window.scrollTo(0, 0);
     const nameBottomSettle = getHeroNameBottomSettle(preloaderContent);
     const nameLock = getHeroNameLock(preloaderContent);
 
-    // ── Step 4: Scroll progress tracker ──────────────────────────
-    // ── Step 5: Initial GSAP set state ───────────────────────────
     gsap.set(preloaderContent, {
       scale: window.innerWidth <= 600 ? 0.72 : 0.44,
       transformOrigin: '50% 50%',
@@ -147,7 +135,6 @@ export default function Preloader() {
     gsap.set('.btm-preloader-dot .btm-char-reveal', { autoAlpha: 0 });
     gsap.set([tPanelDark, tPanelRed], { yPercent: 100 });
 
-    // ── Step 6: Intro animation timeline (matches reference exactly)
     const intro = gsap.timeline({ defaults: { ease: 'power3.out' } });
 
     intro
@@ -192,7 +179,6 @@ export default function Preloader() {
       )
       .set(transitionPanel, { display: 'none' });
 
-    // ── Step 8: Match the name to the hero's exact rendered progress ──
     const moveNameIntoHeader = (event: Event) => {
       const heroProgress = (event as CustomEvent<number>).detail;
       const progress = Math.min(heroProgress / 0.76, 1);
@@ -238,13 +224,9 @@ export default function Preloader() {
           <CinematicBackground />
         </div>
         <Hero />
-
         <HeroStatement />
         <DevicesShowcase />
-
-
         <Projects />
-
       </div>
     </div>
   );

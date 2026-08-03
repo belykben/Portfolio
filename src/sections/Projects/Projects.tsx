@@ -1,4 +1,4 @@
-import { FlowingMenu, type MenuItemData } from '../../components/Skills/FlowingMenu/FlowingMenu';
+import { FlowingMenu, type MenuItemData } from '../../components/FlowingMenu/FlowingMenu';
 import MagneticButton from '../../components/MagneticButton/MagneticButton';
 import styles from './Projects.module.css';
 
