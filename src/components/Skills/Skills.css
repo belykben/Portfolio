@@ -1,0 +1,164 @@
+:root {
+  --skills-bg: var(--bg, oklch(0.13 0.006 35));
+  --skills-ink: var(--ink, oklch(0.91 0.008 75));
+  --skills-muted: var(--muted, oklch(0.62 0.01 75));
+  --skills-line: var(--line, oklch(0.9 0.006 75 / 0.16));
+  --skills-accent-hot: var(--accent-hot, oklch(0.65 0.27 29));
+  --skills-ease-out: var(--ease-out, cubic-bezier(0.23, 1, 0.32, 1));
+}
+
+.skills {
+  position: relative;
+  z-index: 90;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: clamp(2rem, 4vw, 5rem);
+  width: 100%;
+  min-height: 100vh;
+  padding: clamp(3rem, 6vh, 6rem) clamp(3.5rem, 7vw, 8rem);
+  border-top: none;
+  background: transparent;
+  isolation: isolate;
+  color: var(--skills-ink);
+  font-family: "Outfit", Archivo, Inter, ui-sans-serif, system-ui, sans-serif;
+  box-sizing: border-box;
+}
+
+.skills *,
+.skills *::before,
+.skills *::after {
+  box-sizing: border-box;
+}
+
+.skills-panel {
+  min-width: 0;
+}
+
+.skills-left {
+  position: sticky;
+  top: clamp(4rem, 10vh, 7rem);
+  display: grid;
+  align-content: start;
+  gap: clamp(1.6rem, 3vw, 3rem);
+  padding-top: 2vh;
+  align-self: start;
+  flex: 1;
+  max-width: clamp(340px, 42vw, 700px);
+}
+
+.skills-subtitle {
+  font-family: 'JetBrains Mono Variable', ui-monospace, SFMono-Regular, Consolas,
+    monospace;
+  font-size: 0.75rem;
+  color: var(--skills-ink);
+}
+
+.skills h2 {
+  max-width: 21ch;
+  margin: 0;
+  font-family: "Outfit", "Archivo", system-ui, sans-serif;
+  font-size: clamp(2.1rem, 4.2vw, 4.8rem);
+  font-weight: 800;
+  line-height: 1.08;
+  letter-spacing: -0.03em;
+}
+
+.skill-title-highlight {
+  color: oklch(0.89 0.029 195);
+}
+
+.skills-list {
+  display: grid;
+  align-content: start;
+  flex: 1;
+  max-width: clamp(360px, 45vw, 680px);
+  width: 100%;
+}
+
+.skill-group {
+  border-bottom: 1px solid var(--skills-line);
+}
+
+.skill-group button {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  padding: clamp(1rem, 2vw, 1.8rem) 0;
+  border: 0;
+  color: var(--skills-ink);
+  background: transparent;
+  text-align: left;
+  cursor: pointer;
+  font-family: inherit;
+  transition:
+    color 180ms var(--skills-ease-out),
+    transform 160ms var(--skills-ease-out);
+}
+
+.skill-group button:active {
+  transform: scale(0.99);
+}
+
+.skill-group button span:first-child {
+  font-family: "Outfit", "Archivo", system-ui, sans-serif;
+  font-size: clamp(1.5rem, 2.8vw, 3.4rem);
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.05em;
+}
+
+.skill-toggle {
+  font-family: 'JetBrains Mono Variable', ui-monospace, SFMono-Regular, Consolas,
+    monospace;
+  color: var(--skills-muted);
+}
+
+.skill-body {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 360ms var(--skills-ease-out);
+}
+
+.skill-group.open .skill-body {
+  grid-template-rows: 1fr;
+}
+
+.skill-body ul {
+  min-height: 0;
+  margin: 0;
+  padding: 0 0 0.5rem;
+  overflow: hidden;
+  list-style: none;
+  color: var(--skills-muted);
+}
+
+.skill-body li {
+  padding: 0.24rem 0;
+  font-size: clamp(0.95rem, 1.1vw, 1.18rem);
+}
+
+/* Responsive styles */
+@media (max-width: 900px) {
+  .skills {
+    flex-direction: column;
+    padding: clamp(2rem, 4vh, 3.5rem) clamp(1.5rem, 4vw, 3rem);
+  }
+
+  .skills-left,
+  .skills-list {
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 768px) {
+  .skills {
+    min-height: auto;
+  }
+
+  .skills-left {
+    position: relative;
+    top: auto;
+    padding-top: 0;
+  }
+}

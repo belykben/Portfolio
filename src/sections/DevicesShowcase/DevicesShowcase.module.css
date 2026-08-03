@@ -98,7 +98,7 @@
   white-space: nowrap;
 }
 
-/* 3D Device Stage (Centered in gap between left & right titles, z-index: 10) */
+/* 3D Device Stage (Centered in gap between left & right titles, z-index: 40) */
 .stage {
   position: absolute;
   inset: 0;
@@ -107,7 +107,7 @@
   justify-content: center;
   pointer-events: none;
   transform-style: preserve-3d;
-  z-index: 10;
+  z-index: 40;
 }
 
 .deviceWrapper {
@@ -117,7 +117,7 @@
   justify-content: center;
   transform-style: preserve-3d;
   will-change: transform, opacity;
-  z-index: 10;
+  z-index: 40;
 }
 
 /* Laptop Device */
@@ -126,7 +126,7 @@
   left: 50%;
   width: clamp(340px, 73vw, 1500px);
   max-height: 70vh;
-  z-index: 10;
+  z-index: 40;
 }
 
 /* Tablet Device */
@@ -248,5 +248,262 @@
 
   .descTitle {
     justify-content: flex-start;
+  }
+}
+
+/* ─────────────────────────────────────────────────────────────
+   New Overlay (Enters from TOP when Laptop is pinned)
+   ───────────────────────────────────────────────────────────── */
+.newOverlay {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100vh;
+  z-index: 60; /* Higher than Laptop stage z-index: 40 */
+  pointer-events: auto;
+  overflow: hidden;
+  will-change: transform, opacity;
+}
+
+/* Horizontal Canvas containing Screen 1 and Screen 2 side-by-side */
+.horizontalCanvas {
+  display: flex;
+  width: 200vw;
+  height: 100vh;
+  will-change: transform;
+}
+
+/* SCREEN 1: Statements Screen (100vw) */
+.statementScreen {
+  width: 100vw;
+  height: 100vh;
+  flex-shrink: 0;
+  padding: clamp(3rem, 6vh, 6rem) clamp(3.5rem, 7vw, 8rem);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+  z-index: 25;
+}
+
+.ambientGlowLeft {
+  position: absolute;
+  top: 30%;
+  left: 10%;
+  width: 40vw;
+  height: 40vw;
+  max-width: 500px;
+  max-height: 500px;
+  background: radial-gradient(circle, rgba(0, 240, 255, 0.08) 0%, transparent 70%);
+  pointer-events: none;
+  z-index: -1;
+  filter: blur(40px);
+}
+
+.ambientGlowRight {
+  position: absolute;
+  bottom: 25%;
+  right: 10%;
+  width: 40vw;
+  height: 40vw;
+  max-width: 500px;
+  max-height: 500px;
+  background: radial-gradient(circle, rgba(112, 0, 255, 0.1) 0%, transparent 70%);
+  pointer-events: none;
+  z-index: -1;
+  filter: blur(40px);
+}
+
+.statementTag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  font-family: "JetBrains Mono", monospace;
+  font-size: clamp(0.68rem, 0.76vw, 0.82rem);
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  color: oklch(0.89 0.029 195);
+  text-transform: uppercase;
+  margin-bottom: 1rem;
+  padding: 0.35rem 0.8rem;
+  background: rgba(0, 240, 255, 0.06);
+  border: 1px solid rgba(0, 240, 255, 0.25);
+  border-radius: 20px;
+}
+
+.statementTagRight {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  font-family: "JetBrains Mono", monospace;
+  font-size: clamp(0.68rem, 0.76vw, 0.82rem);
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  color: rgba(240, 242, 250, 0.75);
+  text-transform: uppercase;
+  margin-bottom: 1rem;
+  padding: 0.35rem 0.8rem;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 20px;
+}
+
+.tagDot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: oklch(0.89 0.029 195);
+  box-shadow: 0 0 10px oklch(0.89 0.029 195);
+}
+
+.tagDotCyan {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #00f0ff;
+  box-shadow: 0 0 10px #00f0ff;
+}
+
+/* PANEL 1: Initial statements floating over center laptop (100vw) */
+.panel1 {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  padding: 0 clamp(3.5rem, 7vw, 8rem);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 70; /* Sits ON TOP of 3D laptop stage (z-index 40) */
+  pointer-events: none;
+  will-change: transform;
+}
+
+.overlayLeft {
+  max-width: clamp(360px, 44vw, 750px);
+  text-align: left;
+  z-index: 75;
+  pointer-events: auto;
+  transform: translateY(-7vh);
+  transform-origin: left center;
+  will-change: transform, opacity;
+}
+
+.overlayLeftText {
+  font-family: "Outfit", "Archivo", system-ui, sans-serif;
+  font-size: clamp(2.4rem, 4.5vw, 5.2rem);
+  font-weight: 800;
+  line-height: 1.1;
+  letter-spacing: -0.025em;
+  color: #ffffff;
+  margin: 0;
+  text-shadow: 0 15px 35px rgba(0, 0, 0, 0.85);
+}
+
+.textAccent {
+  background: linear-gradient(135deg, #ffffff 0%, rgba(0, 240, 255, 0.95) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.overlayRight {
+  max-width: clamp(360px, 44vw, 750px);
+  text-align: right;
+  z-index: 75;
+  pointer-events: auto;
+  transform: translateY(7vh);
+  transform-origin: left center;
+  will-change: transform, opacity;
+}
+
+.overlayRightText {
+  font-family: "Outfit", "Archivo", system-ui, sans-serif;
+  font-size: clamp(2.4rem, 4.5vw, 5.2rem);
+  font-weight: 800;
+  line-height: 1.1;
+  letter-spacing: -0.025em;
+  color: #ffffff;
+  margin: 0;
+  text-shadow: 0 15px 35px rgba(0, 0, 0, 0.85);
+}
+
+.wordSpan {
+  display: inline-block;
+  white-space: nowrap;
+}
+
+.charSpan {
+  display: inline-block;
+  will-change: transform, opacity;
+}
+
+.textHighlight {
+  color: oklch(0.89 0.029 195);
+}
+
+.slashAccent {
+  color: oklch(0.89 0.029 195);
+  font-weight: 400;
+  opacity: 0.85;
+}
+
+.textHighlight {
+  color: oklch(0.89 0.029 195);
+}
+
+.desktopBr {
+  display: block;
+}
+
+/* PANEL 2: "A peek inside my developer toolbox." using imported Skills component */
+.panel2 {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100vh;
+  z-index: 55;
+  will-change: transform;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.panel2 :global(.skills-left) {
+  position: relative;
+  top: auto;
+  align-self: center;
+  z-index: 10;
+}
+
+.panel2 :global(.skills-list) {
+  align-self: flex-start;
+  margin-top: 50vh;
+  padding: 0;
+  will-change: transform;
+}
+
+/* Responsive Layout */
+@media (max-width: 900px) {
+  .panel1 {
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: flex-start;
+    padding: clamp(2rem, 4vh, 3.5rem) clamp(1.5rem, 4vw, 3rem);
+  }
+
+  .overlayLeft,
+  .overlayRight {
+    max-width: 100%;
+    text-align: left;
+    transform: translateY(0);
+  }
+
+  .panel2 :global(.skills) {
+    height: auto;
+    min-height: auto;
+    padding: clamp(2rem, 4vh, 3.5rem) clamp(1.5rem, 4vw, 3rem);
+    overflow-y: auto;
   }
 }
