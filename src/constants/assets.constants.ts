@@ -8,6 +8,17 @@ export const ASSET_URLS = {
       'https://res.cloudinary.com/do9ro9yvf/image/upload/v1785596515/Hero_PC_Setup_Enhanced_1_qnsylt.png'
     ),
   },
+  devices: {
+    phone: optimize(
+      'https://res.cloudinary.com/do9ro9yvf/image/upload/v1785753909/phone_b5z38b.png'
+    ),
+    tablet: optimize(
+      'https://res.cloudinary.com/do9ro9yvf/image/upload/v1785753909/tablet_prpegh.png'
+    ),
+    laptop: optimize(
+      'https://res.cloudinary.com/do9ro9yvf/image/upload/v1785753909/laptop_or3uvc.png'
+    ),
+  },
   background: {
     bgImage1: optimize(
       'https://res.cloudinary.com/do9ro9yvf/image/upload/v1785597839/background_Image_1_tcvvnf.jpg'

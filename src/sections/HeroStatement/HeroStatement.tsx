@@ -121,7 +121,7 @@ export default function HeroStatement() {
         scrollTrigger: {
           trigger: section,
           start: 'top 75%',
-          end: '30% 50%',
+          end: '90% 50%',
           scrub: 0.8,
           invalidateOnRefresh: true,
         },

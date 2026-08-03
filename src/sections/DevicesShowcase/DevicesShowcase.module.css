@@ -1,0 +1,252 @@
+/* ─────────────────────────────────────────────────────────────
+   DevicesShowcase.module.css
+   Pinned section showing responsive devices entering in 3D perspective.
+   ───────────────────────────────────────────────────────────── */
+
+.section {
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+  background: transparent;
+  z-index: 3;
+}
+
+/* Main viewport container (pinned by GSAP ScrollTrigger) */
+.container {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: clamp(5rem, 8vh, 7rem) clamp(2rem, 5vw, 6rem) clamp(3rem, 5vh, 4.5rem);
+  overflow: hidden;
+  perspective: 1200px;
+}
+
+/* Vertically Centered Header (aligned to container padding boundaries) */
+.header {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  transform: translateY(-50%);
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0 clamp(2rem, 5vw, 6rem);
+  z-index: 2;
+  pointer-events: none;
+}
+
+.titleRow {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: baseline;
+  gap: clamp(1rem, 3.5vw, 2.5em);
+  width: 100%;
+}
+
+.leftColumn {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  will-change: transform;
+}
+
+.mainTitleLeft {
+  font-family: "Outfit", "Archivo", system-ui, sans-serif;
+  font-size: clamp(2.8rem, 7.5vw, 10.5rem);
+  font-weight: 700;
+  line-height: 0.92;
+  letter-spacing: -0.02em;
+  word-spacing: 0.08em;
+  color: #ffffff;
+  margin: 0 0 0.8rem 0;
+  white-space: nowrap;
+}
+
+.subTextLeft {
+  font-family: "Outfit", "Inter", system-ui, sans-serif;
+  font-size: clamp(0.88rem, 1.2vw, 1.35rem);
+  font-weight: 500;
+  line-height: 1.35;
+  color: rgba(240, 242, 250, 0.85);
+  margin: 0;
+  max-width: 340px;
+  will-change: transform;
+}
+
+.rightColumn {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  text-align: right;
+  will-change: transform;
+}
+
+.mainTitleRight {
+  font-family: "Outfit", "Archivo", system-ui, sans-serif;
+  font-size: clamp(2.8rem, 7.5vw, 10.5rem);
+  font-weight: 700;
+  line-height: 0.92;
+  letter-spacing: -0.02em;
+  color: #ffffff;
+  margin: 0;
+  white-space: nowrap;
+}
+
+/* 3D Device Stage (Centered in gap between left & right titles, z-index: 10) */
+.stage {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  transform-style: preserve-3d;
+  z-index: 10;
+}
+
+.deviceWrapper {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform-style: preserve-3d;
+  will-change: transform, opacity;
+  z-index: 10;
+}
+
+/* Laptop Device */
+.laptopWrapper {
+  top: 50%;
+  left: 50%;
+  width: clamp(340px, 73vw, 1500px);
+  max-height: 70vh;
+  z-index: 10;
+}
+
+/* Tablet Device */
+.tabletWrapper {
+  top: 50%;
+  left: 50%;
+  width: clamp(280px, 49vw, 1020px);
+  max-height: 66vh;
+  z-index: 10;
+}
+
+/* Phone Device */
+.phoneWrapper {
+  top: 50%;
+  left: 50%;
+  width: clamp(220px, 40vw, 850px);
+  max-height: 64vh;
+  z-index: 10;
+}
+
+.deviceImg {
+  width: 100%;
+  height: auto;
+  max-height: inherit;
+  object-fit: contain;
+  filter: drop-shadow(0 35px 70px rgba(0, 0, 0, 0.88)) drop-shadow(0 0 50px rgba(255, 255, 255, 0.12));
+  user-select: none;
+  pointer-events: none;
+}
+
+/* Bottom description bar anchored cleanly at bottom of screen */
+.bottomBar {
+  position: absolute;
+  bottom: clamp(2rem, 4vh, 3.5rem);
+  left: clamp(2rem, 5vw, 6rem);
+  right: clamp(2rem, 5vw, 6rem);
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  z-index: 12;
+  pointer-events: none;
+}
+
+.bottomTag {
+  font-family: "JetBrains Mono", monospace;
+  font-size: clamp(0.65rem, 0.75vw, 0.82rem);
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: oklch(0.89 0.029 195);
+}
+
+.bottomDesc {
+  max-width: 440px;
+  text-align: right;
+}
+
+.descTitle {
+  display: flex;
+  justify-content: flex-end;
+  gap: 2rem;
+  font-family: "JetBrains Mono", monospace;
+  font-size: clamp(0.62rem, 0.72vw, 0.78rem);
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: rgba(240, 240, 250, 0.6);
+  margin-bottom: 0.6rem;
+}
+
+.descText {
+  font-family: "Inter", system-ui, sans-serif;
+  font-size: clamp(0.78rem, 0.88vw, 0.95rem);
+  font-weight: 400;
+  line-height: 1.5;
+  color: rgba(200, 205, 220, 0.75);
+  margin: 0;
+}
+
+/* Responsive adjustments */
+@media (max-width: 900px) {
+  .titleRow {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.2em;
+  }
+
+  .laptopWrapper {
+    width: clamp(280px, 92vw, 800px);
+    max-height: 62vh;
+    top: 50%;
+    left: 50%;
+  }
+
+  .tabletWrapper {
+    width: clamp(240px, 84vw, 580px);
+    max-height: 58vh;
+    top: 50%;
+    left: 50%;
+  }
+
+  .phoneWrapper {
+    width: clamp(180px, 68vw, 420px);
+    max-height: 55vh;
+    top: 50%;
+    left: 50%;
+  }
+
+  .bottomBar {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+    bottom: clamp(1.5rem, 3vh, 2.5rem);
+  }
+
+  .bottomDesc {
+    text-align: left;
+  }
+
+  .descTitle {
+    justify-content: flex-start;
+  }
+}

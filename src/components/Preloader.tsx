@@ -19,6 +19,7 @@ import gsap from 'gsap';
 import ScrollTrigger from 'gsap/ScrollTrigger';
 import Hero from '../sections/Hero/Hero';
 import HeroStatement from '../sections/HeroStatement/HeroStatement';
+import DevicesShowcase from '../sections/DevicesShowcase/DevicesShowcase';
 import CinematicBackground from './CinematicBackground';
 import TextRoll from './TextRoll';
 import './preloader.css';
@@ -239,6 +240,7 @@ export default function Preloader() {
         <Hero />
 
         <HeroStatement />
+        <DevicesShowcase />
 
         {/* ── Section 1: Overview ──────────────────────────────── */}
         <section className="btm-section btm-section-about" id="about">
