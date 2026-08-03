@@ -1,0 +1,243 @@
+/* ─────────────────────────────────────────────────────────────
+   HeroStatement.module.css
+   Scroll-driven text highlight section that follows the Hero.
+   ───────────────────────────────────────────────────────────── */
+
+.section {
+  position: relative;
+  width: 100%;
+  min-height: 300vh;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  /* Pull up 100vh closer to the hero so it appears sooner */
+  margin-top: -100vh;
+  /* Transparent — the cinematic page background shows through */
+  background: transparent;
+  z-index: 2;
+}
+
+/* Sticky container so the text block stays in view while we scrub */
+.sticky {
+  position: sticky;
+  top: 0;
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* Match hero section horizontal margins */
+  padding: clamp(2rem, 5vh, 5rem) clamp(1.25rem, 4.5vw, 6rem);
+}
+
+/* Inner prose block */
+.prose {
+  position: relative;
+  max-width: 100%;
+  width: 100%;
+}
+
+/* Thin eyebrow label */
+.eyebrow {
+  display: block;
+  font-family: "JetBrains Mono", monospace;
+  font-size: clamp(0.6rem, 0.72vw, 0.78rem);
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: oklch(0.62 0.24 29 / 0.7);
+  margin-bottom: clamp(1.4rem, 3vh, 2.4rem);
+  opacity: 0;
+}
+
+/* Statement paragraph */
+.statement {
+  font-family: "Outfit", "Inter", system-ui, sans-serif;
+  font-size: clamp(1.85rem, 3.4vw, 4.2rem);
+  font-weight: 500;
+  line-height: 1.22;
+  letter-spacing: -0.048em;
+  color: transparent;
+  margin: 0;
+  /* Reset — words get individual colour via JS */
+}
+
+/* Each word wrapper prevents mid-word line breaking and ensures clear word spacing */
+.word {
+  display: inline-block;
+  margin-right: 0.28em;
+}
+
+/* Each character is animated individually by GSAP */
+.char {
+  display: inline;
+  /* Faintly visible base color — GSAP animates to full brightness */
+  color: rgba(230, 230, 235, 0.22);
+  will-change: color;
+}
+
+/* Highlighted state driven by GSAP */
+.wordHighlight {
+  color: oklch(0.96 0.005 75 / 1);
+}
+
+/* The accent "glow" on specific key words */
+.wordAccent {
+  color: oklch(0.85 0.18 29);
+}
+
+/* Thin rule below */
+.rule {
+  display: block;
+  width: 3rem;
+  height: 1px;
+  margin-top: clamp(2.4rem, 5vh, 4rem);
+  background: oklch(0.62 0.24 29 / 0.5);
+  transform: scaleX(0);
+  transform-origin: left center;
+}
+
+/* ── Minimal Stats Section ───────────────────────────────────── */
+.statsSection {
+  margin-top: clamp(4.5rem, 8vh, 7.5rem);
+  width: 100%;
+}
+
+.statsGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: clamp(1.2rem, 2.2vw, 2.5rem);
+  width: 100%;
+}
+
+.statItem {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  transition: transform 0.35s cubic-bezier(0.23, 1, 0.32, 1);
+  will-change: transform, opacity;
+  opacity: 1;
+}
+
+.statItem:hover {
+  transform: translateY(-3px);
+}
+
+/* ── Lottery Machine Reel Styles ────────────────────────────── */
+.lotteryRoller {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 1.15em;
+  line-height: 1.15;
+  overflow: hidden;
+  vertical-align: top;
+  font-family: "Outfit", "Archivo", system-ui, sans-serif;
+  font-size: clamp(2.6rem, 4.4vw, 4.4rem);
+  font-weight: 600;
+  letter-spacing: -0.055em;
+  color: #ffffff;
+  margin-bottom: 0.45rem;
+}
+
+.reelColumn {
+  position: relative;
+  display: inline-block;
+  height: 1.15em;
+  line-height: 1.15;
+  overflow: hidden;
+}
+
+.reelTrack {
+  display: flex;
+  flex-direction: column;
+  will-change: transform;
+  transform: translate3d(0, 0, 0);
+}
+
+.reelDigit {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 1.15em;
+  line-height: 1.15;
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: inherit;
+  letter-spacing: inherit;
+  color: inherit;
+}
+
+.reelSuffix {
+  display: inline-flex;
+  align-items: center;
+  height: 1.15em;
+  line-height: 1.15;
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: inherit;
+  letter-spacing: inherit;
+  color: inherit;
+  margin-left: 0.04em;
+}
+
+.statValue {
+  display: none;
+}
+
+.statLabel {
+  display: block;
+  font-family: "Outfit", "Inter", system-ui, sans-serif;
+  font-size: clamp(0.92rem, 1.05vw, 1.15rem);
+  font-weight: 600;
+  letter-spacing: -0.025em;
+  color: rgba(245, 245, 250, 0.95);
+  margin-bottom: 0.2rem;
+}
+
+.statDetail {
+  display: block;
+  font-family: "Inter", system-ui, sans-serif;
+  font-size: clamp(0.72rem, 0.8vw, 0.85rem);
+  font-weight: 400;
+  line-height: 1.35;
+  color: rgba(180, 185, 200, 0.55);
+}
+
+/* ── Responsive ──────────────────────────────────────────────── */
+@media (max-width: 900px) {
+  .statsGrid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.75rem 1.5rem;
+  }
+}
+
+@media (max-width: 760px) {
+  .sticky {
+    padding: 2rem 1.5rem;
+  }
+
+  .statement {
+    font-size: clamp(1.55rem, 5.5vw, 2.2rem);
+  }
+}
+
+@media (max-width: 520px) {
+  .statsGrid {
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+  }
+
+  .statItem {
+    padding-left: 1rem;
+  }
+}
+
+@media (max-width: 450px) {
+  .statement {
+    font-size: clamp(1.25rem, 6.2vw, 1.9rem);
+    letter-spacing: -0.03em;
+  }
+}

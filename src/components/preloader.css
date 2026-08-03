@@ -147,16 +147,10 @@
 
 /* Section 1 smooth gradient overlap over bottom of hero scene */
 .btm-section-about {
-  margin-top: -30vh;
-  padding-top: max(32vh, 8rem);
-  background: linear-gradient(
-    180deg,
-    transparent 0%,
-    rgba(4, 7, 20, 0.5) 15vh,
-    rgba(4, 7, 20, 0.9) 28vh,
-    #040714 40vh
-  );
+  padding-top: clamp(4rem, 8vh, 8rem);
+  background: #040714;
 }
+
 
 .btm-section-container {
   max-width: 1100px;
