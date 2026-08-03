@@ -106,7 +106,7 @@
   font-style: italic;
   font-weight: 400;
   letter-spacing: -0.09em;
-  color: oklch(0.88 0.032 163);
+  color: oklch(0.89 0.029 195);
 }
 
 .btm-preloader-dot {
@@ -140,9 +140,11 @@
 .btm-section {
   position: relative;
   z-index: 2;
-  background-color: #040714; /* Exact night-floor color matching hero bottom */
+  background-color: #040714;
+  /* Exact night-floor color matching hero bottom */
   padding: clamp(4rem, 10vh, 8rem) clamp(1.5rem, 5vw, 4rem);
-  border: none; /* NO separation line anywhere */
+  border: none;
+  /* NO separation line anywhere */
 }
 
 /* Section 1 smooth gradient overlap over bottom of hero scene */

@@ -83,7 +83,7 @@
 
 /* The accent "glow" on specific key words */
 .wordAccent {
-  color: oklch(0.85 0.18 29);
+  color: rgba(182, 228, 234, 1);
 }
 
 /* Thin rule below */

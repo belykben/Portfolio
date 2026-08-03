@@ -186,21 +186,27 @@
   gap: 0.36rem;
   padding: 0.36rem;
   border-radius: 9999px;
-  border: 0;
-  background: rgb(255 255 255 / 0.28);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  background: rgba(255, 255, 255, 0.28);
   color: #3c3739;
   font-size: clamp(0.84rem, 1vw, 1.2rem);
   font-weight: 600;
   letter-spacing: -0.04em;
   text-decoration: none;
-  transition: transform 260ms var(--ease-out), background-color 260ms var(--ease-out), box-shadow 260ms var(--ease-out);
-  box-shadow: 0 0.8rem 1.8rem rgb(0 0 0 / 0.13);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  transition: background-color 300ms var(--ease-out),
+              border-color 300ms var(--ease-out),
+              box-shadow 300ms var(--ease-out);
+  box-shadow: 0 0.8rem 1.8rem rgba(0, 0, 0, 0.18), 0 0 15px rgba(255, 255, 255, 0.08);
+  cursor: pointer;
+  will-change: transform;
 }
 
 .exploreBtn:hover {
-  background: rgb(255 255 255 / 0.42);
-  transform: translateY(-2px);
-  box-shadow: 0 1rem 2.2rem rgb(0 0 0 / 0.2);
+  background: rgba(255, 255, 255, 0.42);
+  border-color: rgba(255, 255, 255, 0.5);
+  box-shadow: 0 1.2rem 2.8rem rgba(0, 0, 0, 0.3), 0 0 25px rgba(255, 255, 255, 0.2);
 }
 
 .exploreBtn > span:first-child {
@@ -208,8 +214,13 @@
   min-height: 3.1rem;
   place-items: center;
   padding: 0 1.45rem;
-  border-radius: inherit;
+  border-radius: 9999px;
   background: #f4f4f4;
+  transition: background-color 260ms var(--ease-out);
+}
+
+.exploreBtn:hover > span:first-child {
+  background: #ffffff;
 }
 
 .exploreIcon {
@@ -220,11 +231,34 @@
   border-radius: 50%;
   color: inherit;
   background: #f4f4f4;
+  transition: background-color 260ms var(--ease-out);
+}
+
+.exploreBtn:hover .exploreIcon {
+  background: #ffffff;
 }
 
 .exploreIcon svg {
   width: 1.18rem;
   height: 1.18rem;
+}
+
+.arrowStem {
+  transition: transform 260ms var(--ease-out);
+  will-change: transform;
+}
+
+.exploreBtn:hover .arrowStem {
+  animation: arrowBounce 0.6s cubic-bezier(0.23, 1, 0.32, 1) infinite alternate;
+}
+
+@keyframes arrowBounce {
+  0% {
+    transform: translateY(-1px);
+  }
+  100% {
+    transform: translateY(2.5px);
+  }
 }
 
 .scrollBar {

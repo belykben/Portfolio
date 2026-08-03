@@ -43,10 +43,17 @@ body {
   background: var(--night-floor);
 }
 
-/* Scrollbar */
-::-webkit-scrollbar { width: 2px; }
-::-webkit-scrollbar-track { background: var(--night-floor); }
-::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 2px; }
+/* Hide scrollbars completely across all browsers */
+html, body, #root, * {
+  scrollbar-width: none !important; /* Firefox */
+  -ms-overflow-style: none !important; /* IE/Edge */
+}
+
+::-webkit-scrollbar {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
+}
 
 /* Lenis smooth scroll support */
 html.lenis,

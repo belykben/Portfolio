@@ -44,7 +44,8 @@
 
 .tPanelRed {
   z-index: 2;
-  background: oklch(0.65 0.27 29); /* --accent-hot */
+  background: oklch(0.65 0.27 29);
+  /* --accent-hot */
 }
 
 /* ── Name layer ──────────────────────────────────────────── */
@@ -109,7 +110,8 @@
   font-style: italic;
   font-weight: 400;
   letter-spacing: -0.09em;
-  color: oklch(0.88 0.032 163); /* soft mint accent */
+  color: oklch(0.89 0.029 195);
+  /* soft mint accent */
 }
 
 .preloaderDot {

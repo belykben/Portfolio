@@ -120,8 +120,8 @@ export default function HeroStatement() {
       const tl = gsap.timeline({
         scrollTrigger: {
           trigger: section,
-          start: 'top 60%',
-          end: '35% 50%',
+          start: 'top 75%',
+          end: '30% 50%',
           scrub: 0.8,
           invalidateOnRefresh: true,
         },
@@ -136,11 +136,11 @@ export default function HeroStatement() {
 
         tl.fromTo(
           el,
-          { color: 'rgba(230, 230, 235, 0.22)' },
+          { color: 'rgba(242, 242, 250, 0.22)' },
           {
             color: isAccent
-              ? 'rgba(255, 155, 80, 1)'   // warm amber for accent characters
-              : 'rgba(242, 242, 250, 1)', // near-white for regular characters
+              ? 'rgba(182, 228, 234, 1)'  // Direct RGBA match for oklch(0.89 0.029 195) cyan
+              : 'rgba(242, 242, 250, 1)', // Pure near-white for regular text
             ease: 'power1.inOut',
             duration: charDuration,
           },

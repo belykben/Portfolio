@@ -7,6 +7,7 @@ export interface TextRollProps {
   className?: string;
   center?: boolean;
   stagger?: number;
+  active?: boolean;
 }
 
 export function cn(...classes: (string | boolean | undefined | null)[]) {
@@ -18,6 +19,7 @@ export const TextRoll: React.FC<TextRollProps> = ({
   className,
   center = false,
   stagger = 0.035,
+  active,
 }) => {
   const containerRef = useRef<HTMLSpanElement>(null);
   const topCharsRef = useRef<(HTMLSpanElement | null)[]>([]);
@@ -64,12 +66,24 @@ export const TextRoll: React.FC<TextRollProps> = ({
     return () => ctx.revert();
   }, [center, children, stagger]);
 
+  useEffect(() => {
+    if (active === true) {
+      timelineRef.current?.play();
+    } else if (active === false) {
+      timelineRef.current?.reverse();
+    }
+  }, [active]);
+
   const handleMouseEnter = () => {
-    timelineRef.current?.play();
+    if (active === undefined) {
+      timelineRef.current?.play();
+    }
   };
 
   const handleMouseLeave = () => {
-    timelineRef.current?.reverse();
+    if (active === undefined) {
+      timelineRef.current?.reverse();
+    }
   };
 
   const splitText = typeof children === 'string' ? children.split('') : [];
