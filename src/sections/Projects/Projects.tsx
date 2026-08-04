@@ -1,8 +1,14 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import { gsap } from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { FlowingMenu, type MenuItemData } from '../../components/FlowingMenu';
 import MagneticButton from '../../components/MagneticButton';
 import WarpModal from '../../components/WarpModal';
 import styles from './Projects.module.css';
+
+if (typeof window !== 'undefined') {
+  gsap.registerPlugin(ScrollTrigger);
+}
 
 const PROJECTS_DATA: MenuItemData[] = [
   {
@@ -150,8 +156,96 @@ const PROJECTS_DATA: MenuItemData[] = [
 ];
 
 export default function Projects() {
+  const sectionRef = useRef<HTMLElement | null>(null);
+  const headerRef = useRef<HTMLDivElement | null>(null);
+  const menuContainerRef = useRef<HTMLDivElement | null>(null);
+  const footerActionRef = useRef<HTMLDivElement | null>(null);
+
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedProject, setSelectedProject] = useState<MenuItemData | null>(null);
+
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      // 1. Header reveal (subtitle and section title)
+      if (headerRef.current) {
+        gsap.fromTo(
+          headerRef.current.children,
+          { y: 40, autoAlpha: 0 },
+          {
+            y: 0,
+            autoAlpha: 1,
+            duration: 0.8,
+            stagger: 0.15,
+            ease: 'power3.out',
+            scrollTrigger: {
+              trigger: headerRef.current,
+              start: 'top 85%',
+              toggleActions: 'play none none none',
+            },
+          }
+        );
+      }
+
+      // 2. Flowing menu items staggered reveal
+      if (menuContainerRef.current) {
+        gsap.fromTo(
+          menuContainerRef.current,
+          { opacity: 0 },
+          {
+            opacity: 1,
+            duration: 0.6,
+            ease: 'power2.out',
+            scrollTrigger: {
+              trigger: menuContainerRef.current,
+              start: 'top 85%',
+              toggleActions: 'play none none none',
+            },
+          }
+        );
+
+        const menuItems = menuContainerRef.current.querySelectorAll('.fm-menu-item');
+        if (menuItems.length > 0) {
+          gsap.fromTo(
+            menuItems,
+            { y: 50, autoAlpha: 0 },
+            {
+              y: 0,
+              autoAlpha: 1,
+              duration: 0.7,
+              stagger: 0.08,
+              ease: 'power3.out',
+              scrollTrigger: {
+                trigger: menuContainerRef.current,
+                start: 'top 80%',
+                toggleActions: 'play none none none',
+              },
+            }
+          );
+        }
+      }
+
+      // 3. Footer button reveal
+      if (footerActionRef.current) {
+        gsap.fromTo(
+          footerActionRef.current,
+          { y: 30, autoAlpha: 0 },
+          {
+            y: 0,
+            autoAlpha: 1,
+            duration: 0.8,
+            ease: 'power3.out',
+            scrollTrigger: {
+              trigger: footerActionRef.current,
+              start: 'top 90%',
+              toggleActions: 'play none none none',
+            },
+          }
+        );
+      }
+    }, sectionRef);
+
+    return () => ctx.revert();
+  }, []);
 
   const handleItemClick = (item: MenuItemData) => {
     setSelectedProject(item);
@@ -163,13 +257,13 @@ export default function Projects() {
   };
 
   return (
-    <section className={styles.section} id="projects" aria-label="Featured Projects">
+    <section ref={sectionRef} className={styles.section} id="projects" aria-label="Featured Projects">
       <div className={styles.container}>
-        <div className={styles.header}>
-          <h2 className={styles.sectionTitle}>Featured Works</h2>
+        <div ref={headerRef} className={styles.header}>
+          <h2 className={styles.sectionTitle}>Featured Projects</h2>
         </div>
 
-        <div className={styles.menuContainer}>
+        <div ref={menuContainerRef} className={styles.menuContainer}>
           <FlowingMenu
             items={PROJECTS_DATA}
             speed={18}
@@ -184,7 +278,7 @@ export default function Projects() {
           />
         </div>
 
-        <div className={styles.footerAction}>
+        <div ref={footerActionRef} className={styles.footerAction}>
           <MagneticButton
             variant="outline"
             size="md"
