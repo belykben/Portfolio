@@ -1,4 +1,4 @@
-import { ASSET_URLS } from '../constants/assets.constants';
+import { ASSET_URLS } from '../../constants/assets.constants';
 import styles from './CinematicBackground.module.css';
 
 type Cloud = {

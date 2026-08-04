@@ -1,5 +1,5 @@
-import { FlowingMenu, type MenuItemData } from '../../components/FlowingMenu/FlowingMenu';
-import MagneticButton from '../../components/MagneticButton/MagneticButton';
+import { FlowingMenu, type MenuItemData } from '../../components/FlowingMenu';
+import MagneticButton from '../../components/MagneticButton';
 import styles from './Projects.module.css';
 
 const PROJECTS_DATA: MenuItemData[] = [

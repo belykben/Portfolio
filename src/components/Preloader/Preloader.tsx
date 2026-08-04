@@ -17,11 +17,11 @@ import { useRef } from 'react';
 import { useGSAP } from '@gsap/react';
 import gsap from 'gsap';
 import ScrollTrigger from 'gsap/ScrollTrigger';
-import Hero from '../sections/Hero/Hero';
-import HeroStatement from '../sections/HeroStatement/HeroStatement';
-import DevicesShowcase from '../sections/DevicesShowcase/DevicesShowcase';
-import Projects from '../sections/Projects/Projects';
-import CinematicBackground from './CinematicBackground';
+import Hero from '../../sections/Hero/Hero';
+import HeroStatement from '../../sections/HeroStatement/HeroStatement';
+import DevicesShowcase from '../../sections/DevicesShowcase/DevicesShowcase';
+import Projects from '../../sections/Projects/Projects';
+import CinematicBackground from '../CinematicBackground';
 import './preloader.css';
 
 gsap.registerPlugin(ScrollTrigger, useGSAP);
