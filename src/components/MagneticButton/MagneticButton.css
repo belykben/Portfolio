@@ -61,6 +61,24 @@
   border-color: oklch(0.89 0.029 195);
 }
 
+/* Dotted variant */
+.magnetic-btn-dotted {
+  background: transparent;
+  color: #ffffff;
+  border: 1.5px dashed rgba(255, 255, 255, 0.45);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+  transition: border-color 0.3s ease, color 0.3s ease, background-color 0.3s ease;
+}
+
+.magnetic-btn-dotted:hover {
+  border-color: oklch(0.89 0.029 195);
+  background: rgba(15, 222, 230, 0.06);
+}
+
+.magnetic-btn-dotted:hover .magnetic-btn-text {
+  color: #ffffff;
+}
+
 /* Fill background circle animated with GSAP */
 .magnetic-btn-fill-circle {
   position: absolute;

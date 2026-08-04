@@ -2,11 +2,26 @@ import React, { useState, useEffect, useRef, useLayoutEffect } from 'react';
 import { gsap } from 'gsap';
 import './FlowingMenu.css';
 
+export interface ProjectMetric {
+  label: string;
+  value: string;
+  subtext?: string;
+}
+
 export interface MenuItemData {
   link: string;
   text: string;
   image: string;
   category?: string;
+  description?: string;
+  longDescription?: string;
+  role?: string;
+  period?: string;
+  domain?: string;
+  techStack?: string[];
+  metrics?: ProjectMetric[];
+  highlights?: string[];
+  githubUrl?: string;
 }
 
 export interface FlowingMenuProps {
@@ -19,6 +34,7 @@ export interface FlowingMenuProps {
   borderColor?: string;
   badgeColor?: string;
   badgeTextColor?: string;
+  onItemClick?: (item: MenuItemData) => void;
 }
 
 interface MenuItemProps extends MenuItemData {
@@ -30,6 +46,7 @@ interface MenuItemProps extends MenuItemData {
   borderColor: string;
   isLast: boolean;
   onHoverChange: (isActive: boolean, index: number) => void;
+  onItemClick?: (item: MenuItemData) => void;
 }
 
 export const FlowingMenu: React.FC<FlowingMenuProps> = ({
@@ -42,6 +59,7 @@ export const FlowingMenu: React.FC<FlowingMenuProps> = ({
   borderColor = 'rgba(255, 255, 255, 0.15)',
   badgeColor = 'oklch(0.89 0.029 195)',
   badgeTextColor = '#060010',
+  onItemClick,
 }) => {
   const [modalState, setModalState] = useState({ isActive: false, index: 0 });
 
@@ -145,6 +163,7 @@ export const FlowingMenu: React.FC<FlowingMenuProps> = ({
             onHoverChange={(isActive, idx) => {
               setModalState({ isActive, index: idx });
             }}
+            onItemClick={onItemClick}
           />
         ))}
       </nav>
@@ -174,20 +193,32 @@ export const FlowingMenu: React.FC<FlowingMenuProps> = ({
   );
 };
 
-const MenuItem: React.FC<MenuItemProps> = ({
-  link,
-  text,
-  image,
-  category,
-  index,
-  speed,
-  textColor,
-  marqueeBgColor,
-  marqueeTextColor,
-  borderColor,
-  isLast,
-  onHoverChange,
-}) => {
+const MenuItem: React.FC<MenuItemProps> = (props) => {
+  const {
+    link,
+    text,
+    image,
+    category,
+    description,
+    longDescription,
+    role,
+    period,
+    domain,
+    techStack,
+    metrics,
+    highlights,
+    githubUrl,
+    index,
+    speed,
+    textColor,
+    marqueeBgColor,
+    marqueeTextColor,
+    borderColor,
+    isLast,
+    onHoverChange,
+    onItemClick,
+  } = props;
+
   const itemRef = useRef<HTMLDivElement>(null);
   const outerRef = useRef<HTMLDivElement>(null);
   const innerRef = useRef<HTMLDivElement>(null);
@@ -246,6 +277,27 @@ const MenuItem: React.FC<MenuItemProps> = ({
     gsap.to(innerRef.current, { y: innerYOffset, duration: 0.6, ease: 'expo.out' });
   };
 
+  const handleClick = (e: React.MouseEvent<HTMLElement>) => {
+    if (onItemClick) {
+      e.preventDefault();
+      onItemClick({
+        link,
+        text,
+        image,
+        category,
+        description,
+        longDescription,
+        role,
+        period,
+        domain,
+        techStack,
+        metrics,
+        highlights,
+        githubUrl,
+      });
+    }
+  };
+
   const formattedNum = String(index + 1).padStart(2, '0');
 
   return (
@@ -256,6 +308,7 @@ const MenuItem: React.FC<MenuItemProps> = ({
     >
       <a
         href={link}
+        onClick={handleClick}
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
         className="fm-menu-link"
@@ -273,6 +326,7 @@ const MenuItem: React.FC<MenuItemProps> = ({
         ref={outerRef}
         className="fm-marquee-outer"
         style={{ backgroundColor: marqueeBgColor }}
+        onClick={handleClick}
       >
         <div ref={innerRef} className="fm-marquee-inner">
           <div ref={marqueeRef} className="fm-marquee-content">

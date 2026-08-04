@@ -67,9 +67,10 @@ export interface MagneticButtonProps {
   children: React.ReactNode;
   onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void;
   className?: string;
-  variant?: 'fill' | 'outline';
+  variant?: 'fill' | 'outline' | 'dotted';
   size?: 'sm' | 'md';
   type?: 'button' | 'submit' | 'reset';
+  disabled?: boolean;
 }
 
 export const MagneticButton: React.FC<MagneticButtonProps> = ({
@@ -79,11 +80,12 @@ export const MagneticButton: React.FC<MagneticButtonProps> = ({
   variant = 'fill',
   size = 'md',
   type = 'button',
+  disabled = false,
 }) => {
   const fillRef = useRef<HTMLDivElement>(null);
 
   const handleMouseEnter = () => {
-    if (!fillRef.current) return;
+    if (!fillRef.current || disabled) return;
     gsap.to(fillRef.current, {
       top: '-25%',
       duration: 0.5,
@@ -93,7 +95,7 @@ export const MagneticButton: React.FC<MagneticButtonProps> = ({
   };
 
   const handleMouseLeave = () => {
-    if (!fillRef.current) return;
+    if (!fillRef.current || disabled) return;
     gsap.to(fillRef.current, {
       top: '-150%',
       duration: 0.5,
@@ -106,19 +108,25 @@ export const MagneticButton: React.FC<MagneticButtonProps> = ({
   };
 
   const sizeClass = size === 'sm' ? 'magnetic-btn-sm' : 'magnetic-btn-md';
-  const variantClass = variant === 'outline' ? 'magnetic-btn-outline' : 'magnetic-btn-fill';
+  const variantClass =
+    variant === 'outline'
+      ? 'magnetic-btn-outline'
+      : variant === 'dotted'
+      ? 'magnetic-btn-dotted'
+      : 'magnetic-btn-fill';
 
   return (
-    <Magnetic strength={0.35}>
+    <Magnetic strength={disabled ? 0 : 0.35}>
       <button
         type={type}
         onClick={onClick}
+        disabled={disabled}
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
         className={`magnetic-btn ${sizeClass} ${variantClass} ${className}`.trim()}
       >
         <div ref={fillRef} className="magnetic-btn-fill-circle" />
-        <Magnetic strength={0.15}>
+        <Magnetic strength={disabled ? 0 : 0.15}>
           <span className="magnetic-btn-text">{children}</span>
         </Magnetic>
       </button>

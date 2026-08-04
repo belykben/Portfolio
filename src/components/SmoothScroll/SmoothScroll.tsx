@@ -14,11 +14,6 @@ interface SmoothScrollProps {
  *
  * Bridges Lenis with GSAP's ScrollTrigger so all scroll-driven
  * animations stay in sync with the smooth scroll offset.
- *
- * Performance notes:
- * - Uses gsap.ticker instead of rAF loop to batch with GSAP's frame cycle
- * - lagSmoothing(0) prevents GSAP from compensating for dropped frames,
- *   which would cause jerky animation spikes
  */
 export default function SmoothScroll({ children }: SmoothScrollProps) {
   const lenisRef = useRef<Lenis | null>(null);
@@ -32,6 +27,7 @@ export default function SmoothScroll({ children }: SmoothScrollProps) {
     });
 
     lenisRef.current = lenis;
+    (window as any).lenis = lenis;
 
     // Bridge Lenis → ScrollTrigger: keep positions in sync
     lenis.on('scroll', ScrollTrigger.update);
@@ -48,6 +44,7 @@ export default function SmoothScroll({ children }: SmoothScrollProps) {
     return () => {
       gsap.ticker.remove(tickerCallback);
       lenis.destroy();
+      delete (window as any).lenis;
     };
   }, []);
 
