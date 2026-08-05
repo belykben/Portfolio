@@ -64,7 +64,7 @@ export default function Hero() {
   return (
     <>
       <HeroNavigation />
-      <div className={styles.bottomCenter}>
+      <div className={styles.bottomCenter} data-hero-download-btn>
         <a
           ref={btnRef}
           href={resumeUrl}
