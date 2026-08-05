@@ -165,6 +165,7 @@ export default function Projects() {
   const visionTextRef = useRef<HTMLDivElement | null>(null);
   const subtextRef = useRef<HTMLDivElement | null>(null);
   const contactOverlayRef = useRef<HTMLDivElement | null>(null);
+  const overlayBgRef = useRef<HTMLDivElement | null>(null);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedProject, setSelectedProject] = useState<MenuItemData | null>(null);
@@ -268,6 +269,10 @@ export default function Projects() {
           transformOrigin: 'center center',
         });
 
+        if (overlayBgRef.current) {
+          gsap.set(overlayBgRef.current, { opacity: 0 });
+        }
+
         // Set initial positions for vision text and subtext split words
         if (visionTextRef.current) {
           gsap.set(visionTextRef.current, {
@@ -318,6 +323,19 @@ export default function Projects() {
           0.08
         );
 
+        // Seamlessly engage 100vh full-screen white overlay background as circle reaches full cover scale
+        if (overlayBgRef.current) {
+          tl.to(
+            overlayBgRef.current,
+            {
+              opacity: 1,
+              duration: 0.06,
+              ease: 'power1.out',
+            },
+            0.38
+          );
+        }
+
         // 3. "HAVE A VISION IN MIND?" starts animating at time 0.08,
         // scrolling smoothly right to left (duration 0.54)
         if (visionTextRef.current) {
@@ -366,6 +384,30 @@ export default function Projects() {
               ease: 'power3.out',
             },
             0.50
+          );
+        }
+
+        // 5. Solid white overlay (contactOverlayRef.current) lifts UP without any fade, cleanly revealing the sticky footer underneath
+        if (contactOverlayRef.current) {
+          tl.to(
+            contactOverlayRef.current,
+            {
+              y: '-100vh',
+              duration: 0.22,
+              ease: 'power1.inOut',
+            },
+            0.78
+          );
+        }
+
+        if (semiCircleRef.current) {
+          tl.to(
+            semiCircleRef.current,
+            {
+              opacity: 0,
+              duration: 0.04,
+            },
+            0.78
           );
         }
       }
@@ -448,6 +490,9 @@ export default function Projects() {
 
       {/* Contact Overlay over expanded white circle */}
       <div ref={contactOverlayRef} className={styles.contactOverlay}>
+        {/* Full-screen white background layer for curtain lift reveal */}
+        <div ref={overlayBgRef} className={styles.overlayBg} />
+
         {/* "HAVE A VISION IN MIND?" 70% height text right-to-left horizontal scroll parallax */}
         <div ref={visionTextRef} className={styles.visionTextWrapper}>
           <h2 className={styles.visionText}>HAVE A VISION IN MIND?</h2>
