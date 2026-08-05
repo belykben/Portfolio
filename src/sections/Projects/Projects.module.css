@@ -10,7 +10,6 @@
   padding-top: clamp(5rem, 8vh, 8rem);
   padding-bottom: 0;
   background: transparent;
-  z-index: 5;
   box-sizing: border-box;
   color: #ffffff;
 }
@@ -93,7 +92,7 @@
   background-color: #ffffff;
   transform-origin: center center;
   will-change: transform;
-  z-index: 999;
+  z-index: 500;
   pointer-events: none;
   box-shadow: 0 -5px 30px rgba(255, 255, 255, 0.35);
 }

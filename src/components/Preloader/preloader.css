@@ -47,7 +47,7 @@
 .btm-name-layer {
   position: fixed;
   inset: 0;
-  z-index: 105;
+  z-index: 10000;
   display: grid;
   place-items: center;
   height: 100vh;
@@ -68,6 +68,16 @@
   white-space: nowrap;
   transform-origin: 50% 50%;
   will-change: transform, opacity;
+  z-index: 10001;
+}
+
+/* ── Mix-blend difference mode for preloader content & navigation ── */
+.btm-mix-difference,
+.btm-name-layer.btm-mix-difference,
+.btm-name-layer.btm-mix-difference *,
+.btm-mix-difference * {
+  mix-blend-mode: difference !important;
+  color: #ffffff !important;
 }
 
 .btm-preloader-segment {

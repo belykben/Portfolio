@@ -298,6 +298,30 @@ export default function Projects() {
           0.12
         );
       }
+
+      // 5. Toggle mix-blend-mode: difference on preloader content and navlinks as Projects section enters viewport
+      if (sectionRef.current) {
+        ScrollTrigger.create({
+          trigger: sectionRef.current,
+          start: 'top 85%',
+          end: 'bottom top',
+          onEnter: () => {
+            document.querySelector('.btm-name-layer')?.classList.add('btm-mix-difference');
+            document.querySelector('#btmPreloaderContent')?.classList.add('btm-mix-difference');
+            document.querySelector('[data-hero-navigation]')?.classList.add('btm-mix-difference');
+          },
+          onLeaveBack: () => {
+            document.querySelector('.btm-name-layer')?.classList.remove('btm-mix-difference');
+            document.querySelector('#btmPreloaderContent')?.classList.remove('btm-mix-difference');
+            document.querySelector('[data-hero-navigation]')?.classList.remove('btm-mix-difference');
+          },
+          onEnterBack: () => {
+            document.querySelector('.btm-name-layer')?.classList.add('btm-mix-difference');
+            document.querySelector('#btmPreloaderContent')?.classList.add('btm-mix-difference');
+            document.querySelector('[data-hero-navigation]')?.classList.add('btm-mix-difference');
+          },
+        });
+      }
     }, sectionRef);
 
     return () => ctx.revert();
