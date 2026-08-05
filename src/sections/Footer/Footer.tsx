@@ -16,16 +16,13 @@ export default function Footer() {
 
   // TextRoll hover states
   const [hoveredLink, setHoveredLink] = useState<string | null>(null);
-  const [resumeHovered, setResumeHovered] = useState(false);
-  const [emailHovered, setEmailHovered] = useState(false);
 
   useEffect(() => {
     if (!wrapperRef.current || !contentRef.current) return;
 
     const ctx = gsap.context(() => {
       const allNameChars = contentRef.current!.querySelectorAll('.footer-name-char');
-      const topRow = contentRef.current!.querySelector(`.${styles.topRow}`);
-      const middleArea = contentRef.current!.querySelector(`.${styles.middleArea}`);
+      const topContent = contentRef.current!.querySelector(`.${styles.topContent}`);
       const microBar = contentRef.current!.querySelector(`.${styles.microBar}`);
 
       const heroBtn = document.querySelector<HTMLElement>('[data-hero-download-btn]');
@@ -33,20 +30,8 @@ export default function Footer() {
       const btmNameLayer = document.querySelector<HTMLElement>('.btm-name-layer');
 
       // Initial states
-      gsap.set([topRow, middleArea, microBar], { opacity: 0, y: 22 });
+      gsap.set([topContent, microBar], { opacity: 0, y: 22 });
       gsap.set(allNameChars, { yPercent: 120, opacity: 0 });
-
-      // Calculate Y to move hero btn to the top row of footer
-      const calculateTopRowDeltaY = () => {
-        if (!heroBtn || !topRow) return -window.innerHeight * 0.82;
-        const btnRect = heroBtn.getBoundingClientRect();
-        const rowRect = (topRow as HTMLElement).getBoundingClientRect();
-        const btnCenterY = btnRect.top + btnRect.height / 2;
-        const rowCenterY = rowRect.top + rowRect.height / 2;
-        return rowCenterY - btnCenterY;
-      };
-
-      const targetY = calculateTopRowDeltaY();
 
       const tl = gsap.timeline({
         scrollTrigger: {
@@ -58,32 +43,19 @@ export default function Footer() {
         },
       });
 
-      // Exit: hero nav and name layer fade up
+      // Exit: hero nav, download btn, and name layer all fade up together
       if (heroHeader) {
         tl.to(heroHeader, { opacity: 0, y: -20, duration: 0.5, ease: 'sine.inOut' }, 0);
       }
       if (btmNameLayer) {
         tl.to(btmNameLayer, { opacity: 0, y: -20, duration: 0.5, ease: 'sine.inOut' }, 0);
       }
-
-      // Hero download button smoothly glides to the top row of footer and shrinks slightly
       if (heroBtn) {
-        tl.to(
-          heroBtn,
-          {
-            y: targetY,
-            scale: 0.82,
-            duration: 1,
-            ease: 'sine.inOut',
-            transformOrigin: 'center center',
-          },
-          0
-        );
+        tl.to(heroBtn, { opacity: 0, y: -20, duration: 0.5, ease: 'sine.inOut' }, 0);
       }
 
       // Footer content enters
-      tl.to(topRow, { opacity: 1, y: 0, duration: 0.55, ease: 'power2.out' }, 0.05);
-      tl.to(middleArea, { opacity: 1, y: 0, duration: 0.6, ease: 'power2.out' }, 0.1);
+      tl.to(topContent, { opacity: 1, y: 0, duration: 0.6, ease: 'power2.out' }, 0.05);
       tl.to(microBar, { opacity: 1, y: 0, duration: 0.4, ease: 'power1.out' }, 0.12);
 
       // Name chars: center-to-sides bottom-up lift
@@ -134,47 +106,8 @@ export default function Footer() {
           />
         </div>
 
-        {/* ── TOP ROW: status / email / resume ── */}
-        <div className={styles.topRow}>
-
-          {/* Availability status */}
-          <div className={styles.statusBadge}>
-            <span className={styles.statusDot} aria-hidden="true" />
-            <span className={styles.statusText}>Available for projects</span>
-          </div>
-
-          {/* Email — center */}
-          <a
-            href="mailto:belykben@gmail.com"
-            className={styles.heroEmail}
-            onMouseEnter={() => setEmailHovered(true)}
-            onMouseLeave={() => setEmailHovered(false)}
-            aria-label="Email Benedict Thomas M"
-          >
-            <TextRoll active={emailHovered}>belykben@gmail.com</TextRoll>
-          </a>
-
-          {/* Download Resume — top right, plain underline link */}
-          <a
-            href={resumeUrl}
-            download="Benedict_Thomas_M_Resume.html"
-            className={styles.resumeLink}
-            onMouseEnter={() => setResumeHovered(true)}
-            onMouseLeave={() => setResumeHovered(false)}
-            aria-label="Download Resume"
-          >
-            <TextRoll active={resumeHovered}>Download Resume</TextRoll>
-            <span className={styles.resumeArrow} aria-hidden="true">
-              <svg width="12" height="12" viewBox="0 0 16 16" fill="none">
-                <path d="M8 2.25v7.1m0 0 2.75-2.75M8 9.35 5.25 6.6" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                <path d="M3 10.5v2.25c0 .69.56 1.25 1.25 1.25h7.5c.69 0 1.25-.56 1.25-1.25V10.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-              </svg>
-            </span>
-          </a>
-        </div>
-
-        {/* ── MIDDLE AREA: manifesto / links ── */}
-        <div className={styles.middleArea}>
+        {/* ── TOP CONTENT: manifesto / links ── */}
+        <div className={styles.topContent}>
 
           {/* Left: editorial manifesto */}
           <div className={styles.manifesto}>
@@ -225,6 +158,21 @@ export default function Footer() {
               </a>
             ))}
           </div>
+
+          {/* Resume link column */}
+          <div className={styles.linkCol}>
+            <span className={styles.linkColLabel}>Resume</span>
+            <a
+              href={resumeUrl}
+              download="Benedict_Thomas_M_Resume.html"
+              className={styles.navLink}
+              onMouseEnter={() => setHoveredLink('resume')}
+              onMouseLeave={() => setHoveredLink(null)}
+              aria-label="Download Resume"
+            >
+              <TextRoll active={hoveredLink === 'resume'}>Download</TextRoll>
+            </a>
+          </div>
         </div>
 
         {/* ── BOTTOM NAME BLOCK ── */}
@@ -257,6 +205,7 @@ export default function Footer() {
         {/* ── MICRO BAR ── */}
         <div className={styles.microBar}>
           <span className={styles.microText}>© {new Date().getFullYear()} Benedict Thomas M.</span>
+          <span className={styles.microDivider} aria-hidden="true" />
           <span className={styles.microText}>
             Crafted with <span className={styles.microAccent}>intention</span>
           </span>

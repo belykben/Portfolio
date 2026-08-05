@@ -42,126 +42,34 @@
   mix-blend-mode: screen;
 }
 
-/* ═══════════════════════════════════════════════
-   TOP ROW
-   ═══════════════════════════════════════════════ */
-.topRow {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  width: 100%;
-  position: relative;
-  z-index: 2;
-  border-bottom: 1px solid oklch(0.9 0.006 75 / 0.1);
-  padding-bottom: clamp(1.4rem, 2.8vh, 2.2rem);
-  gap: 2rem;
-}
-
-/* Left: status badge */
-.statusBadge {
-  display: flex;
-  align-items: center;
-  gap: 0.55rem;
-}
-
-.statusDot {
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: oklch(0.75 0.18 150);
-  box-shadow: 0 0 8px oklch(0.75 0.18 150 / 0.7);
-  animation: pulse 2.4s ease-in-out infinite;
-  flex-shrink: 0;
-}
-
-@keyframes pulse {
-  0%, 100% { opacity: 1; transform: scale(1); }
-  50%       { opacity: 0.55; transform: scale(0.85); }
-}
-
-.statusText {
-  font-family: "JetBrains Mono", monospace;
-  font-size: clamp(0.62rem, 0.68vw, 0.75rem);
-  font-weight: 700;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  color: oklch(0.91 0.008 75 / 0.45);
-}
-
-/* Center: email — large mono */
-.heroEmail {
-  font-family: "JetBrains Mono", monospace;
-  font-size: clamp(0.78rem, 1vw, 1.05rem);
-  font-weight: 600;
-  letter-spacing: -0.02em;
-  color: oklch(0.91 0.008 75 / 0.6);
-  text-decoration: none;
-  transition: color 0.2s ease;
-  position: relative;
-  overflow: hidden;
-}
-
-.heroEmail:hover {
-  color: oklch(0.89 0.029 195);
-}
-
-/* Right: Download Resume — raw text link with underline */
-.resumeLink {
-  font-family: "JetBrains Mono", monospace;
-  font-size: clamp(0.72rem, 0.8vw, 0.88rem);
-  font-weight: 700;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: oklch(0.91 0.008 75 / 0.55);
-  text-decoration: none;
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  position: relative;
-  transition: color 0.2s ease;
-}
-
-.resumeLink::after {
+/* ─── Subtle bottom glow ─── */
+.footerContent::after {
   content: '';
   position: absolute;
-  bottom: -2px;
-  left: 0;
-  width: 100%;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60%;
   height: 1px;
-  background: oklch(0.91 0.008 75 / 0.2);
-  transform-origin: right;
-  transition: background 0.25s ease, transform 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+  background: linear-gradient(
+    90deg,
+    transparent,
+    oklch(0.89 0.029 195 / 0.18),
+    transparent
+  );
+  pointer-events: none;
+  z-index: 1;
 }
-
-.resumeLink:hover {
-  color: oklch(0.91 0.008 75);
-}
-
-.resumeLink:hover::after {
-  background: oklch(0.89 0.029 195);
-  transform-origin: left;
-}
-
-.resumeArrow {
-  display: inline-flex;
-  align-items: center;
-  transition: transform 0.25s ease;
-}
-
-.resumeLink:hover .resumeArrow {
-  transform: translateY(2px);
-}
-
 
 /* ═══════════════════════════════════════════════
-   MIDDLE AREA — links grid
+   TOP CONTENT — manifesto + link columns
    ═══════════════════════════════════════════════ */
-.middleArea {
+.topContent {
   display: grid;
-  grid-template-columns: 1fr auto auto;
-  align-items: end;
+  grid-template-columns: 1fr auto auto auto;
+  align-items: start;
   gap: clamp(3rem, 6vw, 8rem);
-  padding: clamp(2rem, 4vh, 3.5rem) 0;
+  padding-bottom: clamp(2rem, 4vh, 3.5rem);
   position: relative;
   z-index: 2;
 }
@@ -171,7 +79,6 @@
   display: flex;
   flex-direction: column;
   gap: 0.3rem;
-  align-self: end;
 }
 
 .manifestoLabel {
@@ -206,7 +113,6 @@
   display: flex;
   flex-direction: column;
   gap: 0.15rem;
-  align-self: end;
 }
 
 .linkColLabel {
@@ -250,7 +156,8 @@
   position: relative;
   z-index: 2;
   user-select: none;
-  border-top: 1px solid oklch(0.9 0.006 75 / 0.08);
+  /* Push name up, give space above microBar */
+  margin-bottom: clamp(4rem, 7vh, 6rem);
 }
 
 .firstNameWrapper,
@@ -309,7 +216,7 @@
   will-change: transform, opacity;
 }
 
-/* ── Micro bottom bar (below the name, absolutely pinned) ── */
+/* ── Micro bottom bar (absolutely pinned to bottom) ── */
 .microBar {
   position: absolute;
   bottom: 0;
@@ -319,7 +226,21 @@
   align-items: center;
   justify-content: space-between;
   z-index: 3;
-  padding-bottom: clamp(0.8rem, 1.5vh, 1.2rem);
+  padding-bottom: clamp(1.6rem, 2.8vh, 2.4rem);
+  padding-top: clamp(0.6rem, 1vh, 0.8rem);
+  border-top: 1px solid oklch(0.9 0.006 75 / 0.06);
+}
+
+.microDivider {
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    oklch(0.9 0.006 75 / 0.08),
+    oklch(0.89 0.029 195 / 0.12),
+    oklch(0.9 0.006 75 / 0.08)
+  );
+  margin: 0 1.5rem;
 }
 
 .microText {
@@ -349,22 +270,21 @@
     grid-template-rows: auto auto auto;
   }
 
-  .topRow {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 1rem;
+  .topContent {
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    padding-bottom: 2rem;
   }
 
-  .middleArea {
-    grid-template-columns: 1fr;
-    gap: 2.5rem;
-    padding: 2rem 0;
+  .manifesto {
+    grid-column: 1 / -1;
   }
 
   .nameContainer {
     flex-direction: column;
     align-items: flex-start;
     gap: 0.1rem;
+    margin-bottom: 3rem;
   }
 
   .firstName,
