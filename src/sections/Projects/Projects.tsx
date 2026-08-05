@@ -162,6 +162,9 @@ export default function Projects() {
   const footerActionRef = useRef<HTMLDivElement | null>(null);
   const semiCircleRef = useRef<HTMLDivElement | null>(null);
   const spacerRef = useRef<HTMLDivElement | null>(null);
+  const visionTextRef = useRef<HTMLDivElement | null>(null);
+  const subtextRef = useRef<HTMLDivElement | null>(null);
+  const contactOverlayRef = useRef<HTMLDivElement | null>(null);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedProject, setSelectedProject] = useState<MenuItemData | null>(null);
@@ -245,7 +248,7 @@ export default function Projects() {
         );
       }
 
-      // 4. 5px White Semi-Circle Expansion (100% natural scroll driven by spacerRef)
+      // 4. White Semi-Circle Expansion & Horizontal Vision Text Parallax + Subtext Reveal
       if (semiCircleRef.current && spacerRef.current) {
         const circleEl = semiCircleRef.current;
         const spacerEl = spacerRef.current;
@@ -257,7 +260,7 @@ export default function Projects() {
           return (dist / 1000) * 1.35;
         };
 
-        // Hidden below screen edge before animation starts (initial 1px size: 1000px * 0.001 = 1px)
+        // Hidden below screen edge before animation starts
         gsap.set(circleEl, {
           scale: 0.001,
           y: 60,
@@ -265,12 +268,29 @@ export default function Projects() {
           transformOrigin: 'center center',
         });
 
+        // Set initial positions for vision text and subtext split words
+        if (visionTextRef.current) {
+          gsap.set(visionTextRef.current, {
+            xPercent: 100,
+            opacity: 0,
+          });
+        }
+        if (subtextRef.current) {
+          const splitWords = subtextRef.current.querySelectorAll('.split-word');
+          gsap.set(splitWords, {
+            y: '120%',
+            opacity: 0,
+            rotateX: -35,
+            transformOrigin: '0% 50% -10px',
+          });
+        }
+
         const tl = gsap.timeline({
           scrollTrigger: {
             trigger: spacerEl,
-            start: 'top 85%',        // Triggers as Projects content enters 85% depth
-            end: 'bottom bottom',   // Reaches 100% coverage smoothly over 120vh scroll runway
-            scrub: 0.8,             // Luxurious, fluid catch-up inertia
+            start: 'top 85%',
+            end: 'bottom bottom',
+            scrub: 1.2,
             invalidateOnRefresh: true,
           },
         });
@@ -281,22 +301,73 @@ export default function Projects() {
           {
             y: 0,
             opacity: 1,
-            duration: 0.12,
+            duration: 0.08,
             ease: 'power2.out',
           },
           0
         );
 
-        // 2. Circle expands progressively without rushing at the finish line
+        // 2. Circle expands progressively to full cover scale (background stays white)
         tl.to(
           circleEl,
           {
             scale: getCoverScale,
-            duration: 0.88,
+            duration: 0.36,
             ease: 'power1.out',
           },
-          0.12
+          0.08
         );
+
+        // 3. "HAVE A VISION IN MIND?" starts animating at time 0.08,
+        // scrolling smoothly right to left (duration 0.54)
+        if (visionTextRef.current) {
+          tl.to(
+            visionTextRef.current,
+            {
+              opacity: 1,
+              duration: 0.04,
+              ease: 'power2.out',
+            },
+            0.08
+          );
+
+          tl.to(
+            visionTextRef.current,
+            {
+              xPercent: -125,
+              duration: 0.54,
+              ease: 'none',
+            },
+            0.08
+          );
+
+          tl.to(
+            visionTextRef.current,
+            {
+              opacity: 0,
+              duration: 0.05,
+              ease: 'power2.in',
+            },
+            0.54
+          );
+        }
+
+        // 4. Subtext SplitText word-by-word staggered reveal (starts as vision text clears)
+        if (subtextRef.current) {
+          const splitWords = subtextRef.current.querySelectorAll('.split-word');
+          tl.to(
+            splitWords,
+            {
+              y: '0%',
+              opacity: 1,
+              rotateX: 0,
+              duration: 0.26,
+              stagger: 0.015,
+              ease: 'power3.out',
+            },
+            0.50
+          );
+        }
       }
 
       // 5. Toggle mix-blend-mode: difference on preloader content and navlinks as Projects section enters viewport
@@ -374,6 +445,25 @@ export default function Projects() {
 
       {/* 5px White Semi-Circle fixed at bottom center of viewport */}
       <div ref={semiCircleRef} className={styles.semiCircle} />
+
+      {/* Contact Overlay over expanded white circle */}
+      <div ref={contactOverlayRef} className={styles.contactOverlay}>
+        {/* "HAVE A VISION IN MIND?" 70% height text right-to-left horizontal scroll parallax */}
+        <div ref={visionTextRef} className={styles.visionTextWrapper}>
+          <h2 className={styles.visionText}>HAVE A VISION IN MIND?</h2>
+        </div>
+
+        {/* Subtext after horizontal scroll marquee finishes */}
+        <div ref={subtextRef} className={styles.subtextContainer}>
+          <p className={styles.subtextParagraph}>
+            {"Every project starts with a conversation. Tell us your vision, I'll craft something that outlasts the moment.".split(' ').map((word, i) => (
+              <span key={i} className={styles.wordWrapper}>
+                <span className="split-word">{word}</span>
+              </span>
+            ))}
+          </p>
+        </div>
+      </div>
 
       <WarpModal
         isOpen={isModalOpen}
