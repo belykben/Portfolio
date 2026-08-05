@@ -175,7 +175,7 @@
   bottom: clamp(3.25rem, 5.45vh, 4.75rem);
   left: 50%;
   transform: translateX(-50%);
-  z-index: 100;
+  z-index: 20000;
   pointer-events: auto;
   transform-origin: 50% 100%;
 }
@@ -193,12 +193,11 @@
   font-weight: 600;
   letter-spacing: -0.04em;
   text-decoration: none;
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(0px);
+  -webkit-backdrop-filter: blur(0px);
   transition: background-color 300ms var(--ease-out),
-              border-color 300ms var(--ease-out),
-              box-shadow 300ms var(--ease-out);
-  box-shadow: 0 0.8rem 1.8rem rgba(0, 0, 0, 0.18), 0 0 15px rgba(255, 255, 255, 0.08);
+    border-color 300ms var(--ease-out);
+  box-shadow: none;
   cursor: pointer;
   will-change: transform;
 }
@@ -206,21 +205,23 @@
 .exploreBtn:hover {
   background: rgba(255, 255, 255, 0.42);
   border-color: rgba(255, 255, 255, 0.5);
-  box-shadow: 0 1.2rem 2.8rem rgba(0, 0, 0, 0.3), 0 0 25px rgba(255, 255, 255, 0.2);
+  box-shadow: none;
 }
 
-.exploreBtn > span:first-child {
+.exploreBtn>span:first-child {
   display: grid;
   min-height: 3.1rem;
   place-items: center;
   padding: 0 1.45rem;
   border-radius: 9999px;
   background: #f4f4f4;
-  transition: background-color 260ms var(--ease-out);
+  box-shadow: 0 0.5rem 1.4rem rgba(0, 0, 0, 0.14), 0 2px 6px rgba(0, 0, 0, 0.06);
+  transition: background-color 260ms var(--ease-out), box-shadow 260ms var(--ease-out);
 }
 
-.exploreBtn:hover > span:first-child {
+.exploreBtn:hover>span:first-child {
   background: #ffffff;
+  box-shadow: 0 0.8rem 2rem rgba(0, 0, 0, 0.22), 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
 .exploreIcon {
@@ -231,11 +232,13 @@
   border-radius: 50%;
   color: inherit;
   background: #f4f4f4;
-  transition: background-color 260ms var(--ease-out);
+  box-shadow: 0 0.5rem 1.4rem rgba(0, 0, 0, 0.14), 0 2px 6px rgba(0, 0, 0, 0.06);
+  transition: background-color 260ms var(--ease-out), box-shadow 260ms var(--ease-out);
 }
 
 .exploreBtn:hover .exploreIcon {
   background: #ffffff;
+  box-shadow: 0 0.8rem 2rem rgba(0, 0, 0, 0.22), 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
 .exploreIcon svg {
@@ -256,6 +259,7 @@
   0% {
     transform: translateY(-1px);
   }
+
   100% {
     transform: translateY(2.5px);
   }
@@ -296,8 +300,18 @@
 }
 
 @keyframes scrollPrompt {
-  0%, 25%, 100% { transform: translateY(0); opacity: 0.72; }
-  55% { transform: translateY(0.28rem); opacity: 1; }
+
+  0%,
+  25%,
+  100% {
+    transform: translateY(0);
+    opacity: 0.72;
+  }
+
+  55% {
+    transform: translateY(0.28rem);
+    opacity: 1;
+  }
 }
 
 @media (max-width: 760px) {
