@@ -21,7 +21,6 @@ import Hero from '../../sections/Hero/Hero';
 import HeroStatement from '../../sections/HeroStatement/HeroStatement';
 import DevicesShowcase from '../../sections/DevicesShowcase/DevicesShowcase';
 import Projects from '../../sections/Projects/Projects';
-import Footer from '../../sections/Footer/Footer';
 import CinematicBackground from '../CinematicBackground';
 import './preloader.css';
 
@@ -228,7 +227,6 @@ export default function Preloader() {
         <HeroStatement />
         <DevicesShowcase />
         <Projects />
-        <Footer />
       </div>
     </div>
   );

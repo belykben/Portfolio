@@ -160,6 +160,8 @@ export default function Projects() {
   const headerRef = useRef<HTMLDivElement | null>(null);
   const menuContainerRef = useRef<HTMLDivElement | null>(null);
   const footerActionRef = useRef<HTMLDivElement | null>(null);
+  const semiCircleRef = useRef<HTMLDivElement | null>(null);
+  const spacerRef = useRef<HTMLDivElement | null>(null);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedProject, setSelectedProject] = useState<MenuItemData | null>(null);
@@ -242,6 +244,60 @@ export default function Projects() {
           }
         );
       }
+
+      // 4. 5px White Semi-Circle Expansion (100% natural scroll driven by spacerRef)
+      if (semiCircleRef.current && spacerRef.current) {
+        const circleEl = semiCircleRef.current;
+        const spacerEl = spacerRef.current;
+
+        const getCoverScale = () => {
+          const w = window.innerWidth;
+          const h = window.innerHeight;
+          const dist = Math.sqrt((w / 2) ** 2 + h ** 2);
+          return (dist / 1000) * 1.35;
+        };
+
+        // Hidden below screen edge before animation starts (initial 1px size: 1000px * 0.001 = 1px)
+        gsap.set(circleEl, {
+          scale: 0.001,
+          y: 60,
+          opacity: 0,
+          transformOrigin: 'center center',
+        });
+
+        const tl = gsap.timeline({
+          scrollTrigger: {
+            trigger: spacerEl,
+            start: 'top 85%',        // Triggers as Projects content enters 85% depth
+            end: 'bottom bottom',   // Reaches 100% coverage smoothly over 120vh scroll runway
+            scrub: 0.8,             // Luxurious, fluid catch-up inertia
+            invalidateOnRefresh: true,
+          },
+        });
+
+        // 1. Circle rises smoothly from below bottom edge (y: 60 -> 0) AND fades in (opacity: 0 -> 1)
+        tl.to(
+          circleEl,
+          {
+            y: 0,
+            opacity: 1,
+            duration: 0.12,
+            ease: 'power2.out',
+          },
+          0
+        );
+
+        // 2. Circle expands progressively without rushing at the finish line
+        tl.to(
+          circleEl,
+          {
+            scale: getCoverScale,
+            duration: 0.88,
+            ease: 'power1.out',
+          },
+          0.12
+        );
+      }
     }, sectionRef);
 
     return () => ctx.revert();
@@ -288,6 +344,12 @@ export default function Projects() {
           </MagneticButton>
         </div>
       </div>
+
+      {/* Scroll spacer under projects content to drive natural scroll circle expansion */}
+      <div ref={spacerRef} className={styles.scrollSpacer} />
+
+      {/* 5px White Semi-Circle fixed at bottom center of viewport */}
+      <div ref={semiCircleRef} className={styles.semiCircle} />
 
       <WarpModal
         isOpen={isModalOpen}

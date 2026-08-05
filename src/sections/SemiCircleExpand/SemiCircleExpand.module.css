@@ -1,0 +1,103 @@
+/* ─────────────────────────────────────────────────────────────
+   SemiCircleExpand.module.css
+   Expanding white semi-circle transition section after Projects
+   ───────────────────────────────────────────────────────────── */
+
+.section {
+  position: relative;
+  width: 100%;
+  height: 220vh;
+  background-color: #060010;
+  z-index: 10;
+}
+
+.stickyContainer {
+  position: sticky;
+  top: 0;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+/* High-res white circle positioned so top-half creates a semi-circle at bottom center */
+.semiCircle {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  width: 2000px;
+  height: 2000px;
+  margin-left: -1000px;
+  margin-bottom: -1000px;
+  border-radius: 50%;
+  background-color: #ffffff;
+  transform-origin: center center;
+  will-change: transform;
+  z-index: 1;
+  pointer-events: none;
+  box-shadow: 0 -10px 40px rgba(255, 255, 255, 0.15);
+}
+
+/* Revealed content on white expanded background */
+.contentWrapper {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  max-width: 900px;
+  padding: 0 2rem;
+  color: #090812;
+  pointer-events: auto;
+}
+
+.tagline {
+  font-family: var(--font-mono, monospace);
+  font-size: clamp(0.75rem, 1.5vw, 0.95rem);
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: oklch(0.45 0.15 250);
+  margin-bottom: 1.25rem;
+  font-weight: 600;
+}
+
+.heading {
+  font-family: var(--font-display, sans-serif);
+  font-size: clamp(2.2rem, 5vw, 4.5rem);
+  font-weight: 800;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  color: #090812;
+  margin-bottom: 1.5rem;
+}
+
+.headingHighlight {
+  background: linear-gradient(135deg, #090812 0%, #3b82f6 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.description {
+  font-family: var(--font-body, sans-serif);
+  font-size: clamp(1rem, 2vw, 1.25rem);
+  color: #4b5563;
+  max-width: 640px;
+  line-height: 1.6;
+  margin-bottom: 2.5rem;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .section {
+    height: 180vh;
+  }
+
+  .contentWrapper {
+    padding: 0 1.25rem;
+  }
+}
