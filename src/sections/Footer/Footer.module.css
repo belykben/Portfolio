@@ -1,0 +1,382 @@
+/* ─────────────────────────────────────────────────────────────
+   Footer.module.css
+   100vh Sticky Curtain Reveal Footer
+   ───────────────────────────────────────────────────────────── */
+
+.footerWrapper {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  min-height: 720px;
+  clip-path: inset(0 0 0 0);
+  pointer-events: none;
+  background: transparent;
+  margin-top: 0;
+  z-index: 1;
+}
+
+.footerContent {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  min-height: 720px;
+  z-index: -1;
+  pointer-events: auto;
+  background: linear-gradient(180deg, #090812 0%, #030206 100%);
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: clamp(2.5rem, 5vh, 4.5rem) clamp(2rem, 5vw, 6rem);
+  box-sizing: border-box;
+  isolation: isolate;
+  overflow: hidden;
+  color: #ffffff;
+}
+
+/* Ambient glow & background monogram */
+.lightRaysBg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  pointer-events: none;
+  opacity: 0.75;
+  mix-blend-mode: screen;
+}
+
+.backgroundGlow {
+  position: absolute;
+  top: -20%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80vw;
+  height: 40vh;
+  background: radial-gradient(circle, rgba(120, 119, 198, 0.15) 0%, rgba(6, 0, 16, 0) 70%);
+  filter: blur(80px);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.watermark {
+  position: absolute;
+  bottom: -2%;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: "Outfit", system-ui, sans-serif;
+  font-size: clamp(6rem, 18vw, 22rem);
+  font-weight: 900;
+  letter-spacing: -0.04em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.02);
+  white-space: nowrap;
+  pointer-events: none;
+  user-select: none;
+  z-index: 0;
+}
+
+/* Top bar: Status & Clock */
+.topBar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  position: relative;
+  z-index: 2;
+}
+
+.statusBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.65rem;
+  padding: 0.5rem 1.1rem;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(12px);
+  font-family: "JetBrains Mono", monospace;
+  font-size: clamp(0.7rem, 0.8vw, 0.85rem);
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  color: rgba(255, 255, 255, 0.85);
+  text-transform: uppercase;
+}
+
+.pulseDot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #10b981;
+  box-shadow: 0 0 12px #10b981;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7);
+  }
+  70% {
+    box-shadow: 0 0 0 8px rgba(16, 185, 129, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(16, 185, 129, 0);
+  }
+}
+
+.timeWidget {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  font-family: "JetBrains Mono", monospace;
+}
+
+.timeLabel {
+  font-size: 0.7rem;
+  letter-spacing: 0.15em;
+  color: rgba(255, 255, 255, 0.45);
+  text-transform: uppercase;
+}
+
+.timeValue {
+  font-size: clamp(0.85rem, 1vw, 1.05rem);
+  font-weight: 600;
+  color: #ffffff;
+  letter-spacing: 0.05em;
+}
+
+/* Middle body: Headline & Main CTA */
+.mainBody {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(1.5rem, 3.5vh, 3rem);
+  width: 100%;
+  max-width: 1300px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 2;
+}
+
+.headline {
+  font-family: "Outfit", "Archivo", system-ui, sans-serif;
+  font-size: clamp(2.4rem, 6.5vw, 6.8rem);
+  font-weight: 800;
+  line-height: 1.02;
+  letter-spacing: -0.035em;
+  text-transform: uppercase;
+  color: #ffffff;
+  margin: 0;
+}
+
+.accentText {
+  background: linear-gradient(135deg, oklch(0.89 0.029 195) 0%, #a78bfa 50%, #ec4899 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Email CTA & Copy button */
+.emailRow {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1.2rem;
+  margin-top: 0.5rem;
+}
+
+.emailPill {
+  display: inline-flex;
+  align-items: center;
+  gap: 1rem;
+  padding: clamp(0.8rem, 1.5vh, 1.2rem) clamp(1.4rem, 2.5vw, 2.2rem);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  backdrop-filter: blur(20px);
+  text-decoration: none;
+  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.emailPill:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.35);
+  transform: translateY(-2px);
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.4);
+}
+
+.emailText {
+  font-family: "JetBrains Mono", monospace;
+  font-size: clamp(1rem, 1.8vw, 1.8rem);
+  font-weight: 600;
+  color: #ffffff;
+  letter-spacing: -0.01em;
+}
+
+.copyBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: clamp(0.8rem, 1.5vh, 1.2rem) clamp(1.2rem, 2vw, 1.8rem);
+  border-radius: 999px;
+  background: oklch(0.89 0.029 195);
+  color: #060010;
+  font-family: "Outfit", sans-serif;
+  font-weight: 700;
+  font-size: clamp(0.85rem, 1vw, 1rem);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+}
+
+.copyBtn:hover {
+  transform: translateY(-2px) scale(1.03);
+  filter: brightness(1.1);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+}
+
+/* Links Columns */
+.linksGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: clamp(1.5rem, 3vw, 3rem);
+  width: 100%;
+  margin-top: clamp(1rem, 2vh, 2.5rem);
+}
+
+.linkColumn {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.colTitle {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.4);
+  margin-bottom: 0.3rem;
+}
+
+.footerLink {
+  font-family: "Outfit", sans-serif;
+  font-size: clamp(0.95rem, 1.1vw, 1.15rem);
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.75);
+  text-decoration: none;
+  transition: color 0.25s ease, transform 0.25s ease;
+  width: fit-content;
+}
+
+.footerLink:hover {
+  color: #ffffff;
+  transform: translateX(4px);
+}
+
+/* Bottom Bar */
+.bottomBar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding-top: clamp(1rem, 2vh, 1.8rem);
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  position: relative;
+  z-index: 2;
+}
+
+.copyright {
+  font-family: "JetBrains Mono", monospace;
+  font-size: clamp(0.7rem, 0.8vw, 0.85rem);
+  color: rgba(255, 255, 255, 0.45);
+  letter-spacing: 0.05em;
+}
+
+.scrollTopBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 999px;
+  padding: 0.6rem 1.2rem;
+  color: #ffffff;
+  font-family: "JetBrains Mono", monospace;
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.scrollTopBtn:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.35);
+  transform: translateY(-2px);
+}
+
+.arrowIcon {
+  font-size: 1rem;
+  transition: transform 0.3s ease;
+}
+
+.scrollTopBtn:hover .arrowIcon {
+  transform: translateY(-3px);
+}
+
+@media (max-width: 768px) {
+  .footerWrapper,
+  .footerContent {
+    height: auto;
+    min-height: 100vh;
+  }
+
+  .footerContent {
+    position: relative;
+    padding: 3rem 1.5rem 2rem 1.5rem;
+  }
+
+  .topBar {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+
+  .timeWidget {
+    align-items: flex-start;
+  }
+
+  .headline {
+    font-size: clamp(2rem, 9vw, 3.5rem);
+  }
+
+  .emailRow {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .emailPill {
+    justify-content: center;
+  }
+
+  .copyBtn {
+    width: 100%;
+  }
+
+  .linksGrid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .bottomBar {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+}
